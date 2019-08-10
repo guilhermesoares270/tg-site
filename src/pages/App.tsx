@@ -1,8 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import './App.css';
+import './Login/Login.tsx';
+import Login from './Login/Login';
 
-const App: React.FC = () => {
+const App: React.FunctionComponent = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -19,6 +21,8 @@ const App: React.FC = () => {
           Learn React
         </a>
       </header>
+      <div></div>
+      <Login />
     </div>
   );
 }

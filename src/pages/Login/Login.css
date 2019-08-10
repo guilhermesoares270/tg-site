@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+}
+
+.Title {
+    font-weight: bold;
+}
+
+.Background {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #ca5959;
+}
+
+.LoginModal {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    height: 300px;
+    width: 300px;
+    padding: 10px;
+    border-radius: 4px;
+    align-items: center;
+    justify-items: center;
+}
+
+.LoginForm {
+    display: flex;
+    flex-direction: column;
+    margin: 10px, 10px;
+    align-items: center;
+}
+
+.StyledInput {
+    height: 36px;
+    padding: 10px, 12px;
+    margin: 2px;
+    font-size: 14px;
+}
+
+.StyledButton {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    background-color: #ca5959;
+    color: aliceblue;
+    font-weight: bold;
+    justify-content: center;
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+.StyledButton:hover {
+    /* background-color: blueviolet; */
+    background: #c55555;
+    transition-duration: 0.6s;
+}
+
+.ClickableText {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    /* background: #ca5959; */
+    color: cornflowerblue;
+    cursor: pointer;
+}
+
+p {
+    user-select: none;
+}
