@@ -1,0 +1,25 @@
+#Sidebar {
+    position: absolute;
+    position: fixed;
+    /* flex-direction: column; */
+    padding: 10px 0px;
+    align-items: center;
+    height: 100%;
+    width: 55px;
+    background: #0a3d62;
+    color: #a4b0be;
+}
+
+@media screen and (max-width: 600px) {
+    #Sidebar {
+        flex-direction: row;
+        padding: 0px 0px;
+        height: 55px;
+        width: 100%;
+        position: fixed;
+        bottom: 0%;
+
+        transition-property: width, height;
+        transition-duration: 0.7s;
+    }
+}

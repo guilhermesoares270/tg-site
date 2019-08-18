@@ -1,33 +1,19 @@
 import React from 'react';
-import './Main.css';
-import { Icon } from 'antd';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import Content from '../Content/Content';
 
-class Main extends React.Component {
-
-    render() {
-        return(
-            <div className="Main">
-                <Sidebar />
-                {/* <h1>Teste</h1> */}
-            </div>
-        );
-    }
-}
-
-const Sidebar: React.FunctionComponent = () => {
+const Main: React.FC<any> = () => {
     return(
-        <div className="Sidebar">
-            <StyledIcon name="pause"/>
-            <p>T</p>
-            <p>A</p>
-        </div>
-    );
-}
+        // <div id="Main">
 
-const StyledIcon: React.FunctionComponent<{name: string}> = ({ name }) => {
-    return(
-        <div className="StyledIcon">
-            <Icon type={name} spin={true} />
+        //     <Sidebar />
+        //     <Content />
+
+        // </div>
+        <div id="Main">
+            {/* <p>aabbcc</p> */}
+            <Sidebar />
+            {/* <Content /> */}
         </div>
     );
 }

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+#Main {
+    display: flex;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #3c5669;
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+}
+
+.Title {
+    font-weight: bold;
+}

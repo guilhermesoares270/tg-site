@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Router from './Router';
+import App from './pages/Main/App';
 import * as serviceWorker from './serviceWorker';
+
+import { createStore } from 'redux';
+import { performLogin, performLogout } from './State/Actions/LoginActions';
+import authenticate from './State/Reducers/LoginReducer';
+import store from './State/GlobalState';
+
+// console.log(store.getState());
+// const unsubscribe = store.subscribe(() => console.log(store.getState()));
+// store.dispatch(performLogin());
+// store.dispatch(performLogout());
 
 // ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render((
-<Router />), document.getElementById('root'));
+<App />), document.getElementById('root'));
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

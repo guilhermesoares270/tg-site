@@ -1,18 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-* {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: normal;
-}
-
-.Title {
-    font-weight: bold;
-}
-
 .Background {
     display: flex;
-    height: 100vh;
-    align-items: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-items: center; 
     justify-content: center;
     background: #ca5959;
 }
@@ -27,6 +18,7 @@
     border-radius: 4px;
     align-items: center;
     justify-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .LoginForm {
@@ -43,7 +35,7 @@
     font-size: 14px;
 }
 
-.StyledButton {
+/* .StyledButton {
     display: flex;
     width: 100%;
     margin: 10px;
@@ -56,10 +48,9 @@
 }
 
 .StyledButton:hover {
-    /* background-color: blueviolet; */
-    background: #c55555;
+    background: #bd4e4e;
     transition-duration: 0.6s;
-}
+} */
 
 .ClickableText {
     display: flex;

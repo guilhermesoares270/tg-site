@@ -1,0 +1,16 @@
+.StyledButton {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    background-color: #ca5959;
+    color: aliceblue;
+    font-weight: bold;
+    justify-content: center;
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+.StyledButton:hover {
+    background: #bd4e4e;
+    transition-duration: 0.6s;
+}

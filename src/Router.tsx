@@ -1,31 +1,32 @@
-import React from 'react';
+import React from "react";
 import Login from './pages/Login/Login';
-import Main from './pages/Main/Main';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function BasicRouter() {
-    return(
-        <Router>
-            {/* <div>
-                <ul>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                </ul>
-                <ul>
+// Each logical "route" has two components, one for
+// the sidebar and one for the main area. We want to
+// render both of them in different places when the
+// path matches the current URL.
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    sidebar: () => <div>home!</div>,
+    main: () => <h2>Home</h2>
+  },
+  {
+    path: "/bubblegum",
+    sidebar: () => <div>bubblegum!</div>,
+    main: () => <h2>Bubblegum</h2>
+  },
+  {
+    path: "/shoelaces",
+    sidebar: () => <div>shoelaces!</div>,
+    main: () => <h2>Shoelaces</h2>
+  },
+  {
+    path: '/login',
+    // sidebar: () => <Login />,
+    main: () => <Login />
+  }
+];
 
-                    <li>
-                        <Link to="/main">Main</Link>
-                    </li>
-                </ul>
-            </div> */}
-
-            <Route exact path="/" component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/main" component={Main} />
-
-        </Router>
-    );
-}
-
-export default BasicRouter;
+export default routes;
