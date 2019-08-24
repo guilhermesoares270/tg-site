@@ -13,7 +13,20 @@
 }
 
 .StyledIcon:hover {
-    /* background: #1176bf; */
     background: #2d6b97;
     cursor: pointer;
+}
+
+.StyledIcon:focus {
+    outline: none;
+    background: #2d6b97;
+}
+
+@media screen and (max-width: 600px) {
+    .StyledIcon {
+        display: flex;
+        flex: 1;
+        width: 55px;
+    }
+
 }

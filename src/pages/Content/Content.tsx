@@ -8,10 +8,10 @@ const Content: React.FC = () => {
         <div id="Content" >
             {routes.map((route, index) => (
                 <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                component={route.main}
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={route.main}
                 />
             ))}
         </div>

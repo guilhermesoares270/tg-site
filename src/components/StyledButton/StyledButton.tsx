@@ -1,22 +1,17 @@
 import React from 'react';
 import './StyledButton.css';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-class StyledButton extends React.Component<RouteComponentProps> {
-
-    // constructor(props: RouteComponentProps) {
-    //     super(props);
-    // }
+class StyledButton extends React.Component<{ text: string, callback: () => void }> {
 
     render() {
         return(
-            <div className="StyledButton" onClick={ () => this.props.history.push('/main')}>
+            <div className="StyledButton" onClick={ this.props.callback }>
                 <section>
-                    <p>aaa</p>
+                    <p>Login</p>
                 </section>
             </div>
         );
     }
 }
 
-export default withRouter(StyledButton);
+export default StyledButton;

@@ -1,0 +1,7 @@
+.CreateContract {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px;
+    background: blueviolet;
+    height: 100vh;
+}

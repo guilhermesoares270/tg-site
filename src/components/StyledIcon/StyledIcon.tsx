@@ -4,7 +4,7 @@ import { Icon } from 'antd';
 
 const StyledIcon: React.FunctionComponent<{name: string }> = ({ name }) => {
     return(
-        <div className="StyledIcon" >
+        <div id="login" className="StyledIcon" >
             <Icon type={name} title="true"/>
         </div>
     );

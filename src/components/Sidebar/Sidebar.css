@@ -1,7 +1,6 @@
 #Sidebar {
     position: absolute;
     position: fixed;
-    /* flex-direction: column; */
     padding: 10px 0px;
     align-items: center;
     height: 100%;
@@ -12,14 +11,21 @@
 
 @media screen and (max-width: 600px) {
     #Sidebar {
-        flex-direction: row;
+        display: flex;
+        justify-content: space-around;
         padding: 0px 0px;
         height: 55px;
         width: 100%;
         position: fixed;
-        bottom: 0%;
-
         transition-property: width, height;
         transition-duration: 0.7s;
+    }
+
+    #SidebarContainer {
+        position: fixed;
+        bottom: 0;
+        height: 55px;
+        width: 100%;
+        background: yellow;
     }
 }

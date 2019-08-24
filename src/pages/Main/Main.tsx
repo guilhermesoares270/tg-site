@@ -4,16 +4,9 @@ import Content from '../Content/Content';
 
 const Main: React.FC<any> = () => {
     return(
-        // <div id="Main">
-
-        //     <Sidebar />
-        //     <Content />
-
-        // </div>
         <div id="Main">
-            {/* <p>aabbcc</p> */}
             <Sidebar />
-            {/* <Content /> */}
+            <Content />
         </div>
     );
 }

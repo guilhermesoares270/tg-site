@@ -1,7 +1,13 @@
 #Content {
     flex: 1;
-    /* margin: -10px 0 0 0; */
     flex-direction: column;
     padding: 0 0 0 55px;
     background: #318ed1;
+}
+
+@media screen and (max-width: 600px) {
+    #Content {
+        flex: 1 1;
+        padding: 0 0 55px 0;
+    }
 }
