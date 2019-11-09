@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import state from '../../State/GlobalState';
-import { performLogin, performLogout} from '../../State/Actions/LoginActions';
+import { performLogin } from '../../State/Actions/LoginActions';
 import Main from '../Main/App';
 
 function Copyright() {
@@ -58,8 +58,7 @@ export default function SignInSide() {
 
     const [values, setValues] = useState({
         email: '',
-        password: '',
-        isLogged: false
+        password: ''
     });
 
     const handleChange = (name: any) => (event: any) => {
@@ -68,7 +67,7 @@ export default function SignInSide() {
 
     const page = () => {
         console.log('page');
-        switch (values.isLogged) {
+        switch (state.getState().isLogged) {
             case false:
                 return login();
             default:
@@ -101,7 +100,7 @@ export default function SignInSide() {
                 />
                 <TextField
                     value={values.password}
-                    variant="outlined"
+                    variant="filled"
                     margin="normal"
                     required
                     fullWidth
@@ -139,7 +138,6 @@ export default function SignInSide() {
       );    
 
   return (
-    // page()
-    login()
+    page()
   );
 }
