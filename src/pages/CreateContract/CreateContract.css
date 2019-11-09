@@ -3,5 +3,12 @@
     flex-direction: column;
     padding: 5px 5px;
     background: blueviolet;
-    height: 100vh;
+    /* height: 100vh; */
+    height: 100%;
+}
+
+.FormControl {
+    background: white;
+    width: 300px;
+    padding: 100px;
 }

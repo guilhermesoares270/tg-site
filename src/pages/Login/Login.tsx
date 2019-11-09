@@ -7,6 +7,7 @@ import { performLogin, performLogout} from '../../State/Actions/LoginActions';
 import Main from '../Main/App';
 import ClickableText from '../../components/ClickableText/ClickableText';
 import StyledInput from '../../components/StyledInput/Styledinput';
+import { Input } from 'antd';
 
 class Login extends React.Component {
 
@@ -64,8 +65,6 @@ class Login extends React.Component {
         email: string = this.emailRef.current.value,
         pass: string = this.passRef.current.value
     ) {
-        // console.log(email, pass);
-
         if (email === 'Guilherme' && pass === '123') {
             state.dispatch(performLogin())
             localStorage.setItem('token', 'Default JWT');
@@ -80,12 +79,15 @@ class Login extends React.Component {
         return (
             <form className="LoginForm">
                 <div>
-                    {/* <Title text="Login" /> */}
                     <h2 className="Title">Login</h2>
                 </div>
                 
                 <StyledInput refe={ this.emailRef } name="Email" type="text" />
-                <StyledInput refe={ this.passRef } name="Senha" type="text"/>
+                <StyledInput refe={ this.passRef } name="Senha" type="password"/>
+
+                {/* <Input ref={this.emailRef} placeholder="Username" />
+                <div style={{ margin: '5px 0' }} ></div>
+                <Input.Password ref={this.passRef } placeholder="Password" /> */}
 
                 <StyledButton text="Login123" callback={ () => {
                     this.isAuthenticated();

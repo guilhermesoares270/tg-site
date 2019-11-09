@@ -1,16 +1,25 @@
 import React from 'react';
 import './CreateContract.css';
-import StyledInput from '../../components/StyledInput/Styledinput';
+import { FormControl } from '@material-ui/core';
+import FormTest from './FormTest';
 
 class CreateContract extends React.Component {
+
+    state = {
+        files: []
+    }
+
+    public handleChange(files: any){
+        this.setState({
+            files: files
+        });
+    }
     
     render() {
         return(
-            <div className="CreateContract">
-                <form>
-                    <StyledInput name="Nome" type="text" />
-                </form>
-            </div>
+            <FormControl>
+                <FormTest />
+            </FormControl>
         );
     }
 }

@@ -7,10 +7,10 @@ import * as serviceWorker from './serviceWorker';
 // import { createStore } from 'redux';
 // import { performLogin, performLogout } from './State/Actions/LoginActions';
 // import authenticate from './State/Reducers/LoginReducer';
-// import store from './State/GlobalState';
+import store from './State/GlobalState';
 
 // console.log(store.getState());
-// const unsubscribe = store.subscribe(() => console.log(store.getState()));
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
 // store.dispatch(performLogin());
 // store.dispatch(performLogout());
 
