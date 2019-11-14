@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import state from '../../State/GlobalState';
 import { performLogin } from '../../State/Actions/LoginActions';
 import Main from '../Main/App';
+import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 
 function Copyright() {
   return (
@@ -51,9 +52,23 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  warning: {
+    background: 'red'
+  }
 }));
 
+const styles = {
+  root: {
+      background: 'red'
+  }
+};
+
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
 export default function SignInSide() {
+
     const classes = useStyles();
 
     const [values, setValues] = useState({
@@ -61,8 +76,26 @@ export default function SignInSide() {
         password: ''
     });
 
+    const [internalState, setInternalState] = React.useState<State>({
+      open: false,
+      vertical: 'top',
+      horizontal: 'center',
+    });
+    const { vertical, horizontal, open } = internalState;
+    const { email, password } = values;
+
     const handleChange = (name: any) => (event: any) => {
         setValues({ ...values, [name]: event.target.value });
+    };
+
+    // const handleClick = (newState: SnackbarOrigin) => () => {
+    //   console.log('handleClick');
+    //   setInternalState({ open: true, ...newState });
+    //   console.log(`open ${internalState.open}`);
+    // };
+
+    const handleClose = () => {
+      setInternalState({ ...internalState, open: false });
     };
 
     const page = () => {
@@ -117,13 +150,12 @@ export default function SignInSide() {
                     color="primary"
                     className={classes.submit}
                     onClick={() => {
-    
-                        const { email, password } = values;
-    
-                        if (email === 'guilherme@gmail.com' && password === '123') {
-                            state.dispatch(performLogin());
-                            setValues({ ...values });
-                        }
+                      if (email === 'guilherme@gmail.com' && password === '123') {
+                        state.dispatch(performLogin());
+                        setValues({ ...values });
+                      } else {
+                        setInternalState({ open: true, vertical: 'top', horizontal: 'center' });
+                      }
                     }}
                 >
                     Sign In
@@ -132,6 +164,19 @@ export default function SignInSide() {
                     <Copyright />
                 </Box>
                 </form>
+                <Snackbar
+                  anchorOrigin={{ vertical, horizontal }}
+                  key={`${vertical},${horizontal}`}
+                  open={open}
+                  onClose={handleClose}
+                  ContentProps={{
+                    classes: {
+                      root: classes.warning
+                    },
+                    'aria-describedby': 'message-id',
+                  }}
+                  message={<span id="message-id">Email ou senha incorretos</span>}
+                />
             </div>
             </Grid>
         </Grid>

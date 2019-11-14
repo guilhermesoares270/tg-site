@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import UploadForm from '../CreateContract/UploadFileForm';
+import ListFiles from '../ListFiles/ListFiles';
+import LoaderContainer from '../../components/LoaderContainer/LoaderContainer';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -10,9 +12,11 @@ const screens = (postition: number) => {
     case 1:
       return <UploadForm />
     case 2:
-      return <h1>Lista de arquivos</h1>
+      // return <ListFiles itens={['a', 'aa']} />
+      return <LoaderContainer />
     default:
-      return <h1>Select a valid option!</h1>
+      // return <h1>Select a valid option!</h1>
+      return <LoaderContainer />
   }
 }
 
@@ -27,31 +31,30 @@ const titles = (postition: number) => {
   }
 }
 
+function CustomLayout() {
 
-class CustomLayout extends React.Component {
+  const [ state, setState ] = useState({
+    collapsed: true,
+    selected: 1
+  });
 
-    state = {
-        collapsed: false,
-        selected: 1
-      };
+  const onCollapse = (collapsed: boolean) => {
+    setState({
+      collapsed: collapsed,
+      selected: state.selected
+    });
+  };
 
-    onCollapse = (collapsed: any) => {
-        console.log(collapsed);
-        this.setState({ collapsed });
-      };
-
-    render() {
-        return (
-          
-            <Layout style={{ minHeight: '100vh' }}>
-        <Sider style={{ background: 'white' }} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+  return(
+    <Layout style={{ minHeight: '100vh' }}>
+        <Sider style={{ background: 'white' }} collapsible collapsed={state.collapsed} onCollapse={onCollapse}>
           <div className="logo" />
           <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item onClick={() => this.setState({ selected: 1 }) } key="1">
+            <Menu.Item onClick={() => setState({ collapsed: state.collapsed, selected: 1 }) } key="1">
               <Icon type="file" />
               <span>Novo Arquivos</span>
             </Menu.Item>
-            <Menu.Item  onClick={() => this.setState({ selected: 2 }) } key="2">
+            <Menu.Item  onClick={() => setState({ collapsed: state.collapsed, selected: 2 }) } key="2">
               <Icon type="desktop" />
               <span>Lista de Arquivos</span>
             </Menu.Item>
@@ -75,26 +78,20 @@ class CustomLayout extends React.Component {
               color: 'black',
               background: '#fff',
               padding: '0 10px ',
-              textAlign: 'center',
-              // justifyContent: 'space-around'
+              textAlign: 'center'
             }} >
-            {/* <h1>Page name</h1> */}
-              { titles(this.state.selected) }
-              <h2 style={{ color: 'red' }}>aaa</h2>
-
-            
+              { titles(state.selected) }
           </Header>
             <Content style={{ margin: '0 5px', display: 'flex', justifyContent: 'center', maxHeight: '300px'  }}>
                 {console.log('aaa')}
 
-                { screens(this.state.selected) }
+                { screens(state.selected) }
 
             </Content>
           <Footer style={{ textAlign: 'center' }}>Blockchain</Footer>
         </Layout>
       </Layout>
-        );
-    }
+  );
 }
 
 export default CustomLayout;
