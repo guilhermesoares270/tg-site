@@ -3,6 +3,25 @@ import { Layout, Menu, Icon } from 'antd';
 import UploadForm from '../CreateContract/UploadFileForm';
 import ListFiles from '../ListFiles/ListFiles';
 import LoaderContainer from '../../components/LoaderContainer/LoaderContainer';
+import UserDetails from '../User/UserDetails';
+
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  makeStyles,
+  SwipeableDrawer,
+  Button,
+  Input 
+} from '@material-ui/core';
+
+import {
+  MoveToInbox as InboxIcon,
+  Mail as MailIcon,
+  AccessAlarm as AccessAlarmIcon
+} from '@material-ui/icons'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -12,11 +31,16 @@ const screens = (postition: number) => {
     case 1:
       return <UploadForm />
     case 2:
-      // return <ListFiles itens={['a', 'aa']} />
-      return <LoaderContainer />
+      return <LoaderContainer promise={
+        new Promise(function(resolve, reject){
+          setTimeout(function(){
+              resolve("Yeah !");
+          }, 3000);
+        })}
+        component={<ListFiles itens={['a', 'aa', 'aaa']} />}
+      />
     default:
-      // return <h1>Select a valid option!</h1>
-      return <LoaderContainer />
+      return <h1>Select a valid option!</h1>
   }
 }
 
@@ -29,14 +53,27 @@ const titles = (postition: number) => {
       default:
         return 'Invalid Option'
   }
-}
+};
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
 
 function CustomLayout() {
+
+  const classes = useStyles();
 
   const [ state, setState ] = useState({
     collapsed: true,
     selected: 1
   });
+
+  const [isOpened, setIsOpened] = useState(false);
 
   const onCollapse = (collapsed: boolean) => {
     setState({
@@ -44,6 +81,33 @@ function CustomLayout() {
       selected: state.selected
     });
   };
+
+  const sideList = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={() => setIsOpened(true)}
+      onKeyDown={() => setIsOpened(false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
   return(
     <Layout style={{ minHeight: '100vh' }}>
@@ -57,6 +121,9 @@ function CustomLayout() {
             <Menu.Item  onClick={() => setState({ collapsed: state.collapsed, selected: 2 }) } key="2">
               <Icon type="desktop" />
               <span>Lista de Arquivos</span>
+            </Menu.Item>
+            <Menu.Item  onClick={() => setIsOpened(!isOpened)} key="3">
+              <Icon type="user" />
             </Menu.Item>
             <SubMenu
               key="sub1"
@@ -90,6 +157,18 @@ function CustomLayout() {
             </Content>
           <Footer style={{ textAlign: 'center' }}>Blockchain</Footer>
         </Layout>
+
+        <SwipeableDrawer
+                anchor="right"
+                open={isOpened}
+                // onClose={toggleDrawer('right', false)}
+                // onOpen={toggleDrawer('right', true)}
+                onClose={() => setIsOpened(false)}
+                onOpen={() => setIsOpened(true)}
+            >
+                {sideList()}
+        </SwipeableDrawer>
+
       </Layout>
   );
 }

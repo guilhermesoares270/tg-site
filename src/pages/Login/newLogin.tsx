@@ -57,12 +57,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const styles = {
-  root: {
-      background: 'red'
-  }
-};
-
 interface State extends SnackbarOrigin {
   open: boolean;
 }
