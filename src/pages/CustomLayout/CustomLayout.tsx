@@ -3,7 +3,7 @@ import { Layout, Menu, Icon } from 'antd';
 import UploadForm from '../CreateContract/UploadFileForm';
 import ListFiles from '../ListFiles/ListFiles';
 import LoaderContainer from '../../components/LoaderContainer/LoaderContainer';
-import UserDetails from '../User/UserDetails';
+import UserDetails, { aaa } from '../User/UserDetails';
 
 import {
   List,
@@ -125,19 +125,6 @@ function CustomLayout() {
             <Menu.Item  onClick={() => setIsOpened(!isOpened)} key="3">
               <Icon type="user" />
             </Menu.Item>
-            <SubMenu
-              key="sub1"
-              title={
-                <span>
-                  <Icon type="user" />
-                  <span>Usuário</span>
-                </span>
-              }
-            >
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
           </Menu>
         </Sider>
         <Layout>
@@ -159,14 +146,12 @@ function CustomLayout() {
         </Layout>
 
         <SwipeableDrawer
-                anchor="right"
-                open={isOpened}
-                // onClose={toggleDrawer('right', false)}
-                // onOpen={toggleDrawer('right', true)}
-                onClose={() => setIsOpened(false)}
-                onOpen={() => setIsOpened(true)}
-            >
-                {sideList()}
+              anchor="right"
+              open={isOpened}
+              onClose={() => setIsOpened(false)}
+              onOpen={() => setIsOpened(true)}
+          >
+            {sideList()}
         </SwipeableDrawer>
 
       </Layout>

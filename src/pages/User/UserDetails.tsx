@@ -101,4 +101,42 @@ function UserDetails() {
     );
 }
 
+export function aaa(props: any) {
+  const classes = useStyles();
+
+  <SwipeableDrawer
+      anchor="right"
+      open={props.isOpened}
+      // onClose={toggleDrawer('right', false)}
+      // onOpen={toggleDrawer('right', true)}
+      onClose={() => props.setIsOpened(false)}
+      onOpen={() => props.setIsOpened(true)}
+    >
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={() => props.setIsOpened(true)}
+      onKeyDown={() => props.setIsOpened(false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  </SwipeableDrawer>
+}
+
 export default UserDetails;

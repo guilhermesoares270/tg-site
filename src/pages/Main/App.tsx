@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import NewLogin from '../Login/newLogin';
 import state from '../../State/GlobalState';
 import Main from '../Main/Main';
+import UserRegister from '../User/UserRegister';
 
 class App extends React.Component {
 
@@ -11,7 +12,8 @@ class App extends React.Component {
 
         return(
             <BrowserRouter>
-                { (state.getState().isLogged)? <Main /> : <NewLogin /> }
+                {/* { (state.getState().isLogged)? <Main /> : <NewLogin /> } */}
+                <UserRegister />
             </BrowserRouter>
         );
     }

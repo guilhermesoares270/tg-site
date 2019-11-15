@@ -15,12 +15,21 @@ import { performLogin } from '../../State/Actions/LoginActions';
 import Main from '../Main/App';
 import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 
+// function perforL() {
+//   state.dispatch(performLogin());
+//   setValues({ ...values });
+// }
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       <Link color="inherit" href="https://material-ui.com/">
         Blockchain
       </Link>{' '}
+      <Link href="#" variant="body2">
+        {/* {"Don't have an account? Sign Up"} */}
+        {"Não tem um conta?"}
+      </Link>
     </Typography>
   );
 }
