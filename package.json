@@ -9,6 +9,7 @@
     "css-loader": "^3.2.0",
     "less-loader": "^5.0.0",
     "material-ui-dropzone": "^2.4.5",
+    "md5": "^2.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.0",

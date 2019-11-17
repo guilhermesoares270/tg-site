@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { DropzoneArea } from 'material-ui-dropzone'
 import { Button } from 'antd';
 import { ajax } from 'rxjs/ajax';
@@ -8,6 +8,7 @@ import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import md5 from 'md5';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -22,6 +23,7 @@ function CustomDropzoneArea(props) {
   const [files, setFiles] = useState([]);
   const [open, setOpen] = React.useState(false);
   const url = 'http://127.0.0.1:3333/api/v1/ganache/';
+  let userSubscription = null;
 
   const handleClick = () => {
     setOpen(true);
@@ -34,34 +36,89 @@ function CustomDropzoneArea(props) {
       setOpen(false);
   };
 
-  const printFiles = () => {
-    const ajax$ = ajax({
-      url: url,
-      crossDomain: true,
-      method: 'POST',
-      body: {
-        "signature": "aaa",
-	      "identity": "bbb"
-      },
-      })
-      .pipe(
+  const printFiles = async () => {
+
+    let signature = '';
+
+
+    const file = files[0];
+    var reader = new FileReader();
+    reader.onload = async function(event) {
+
+      const md5Value = await md5(event.target.result);
+      const md5Sig = await md5(`${event.target.result}random`);
+
+      console.log(md5Value);
+
+      signature = md5Value;
+
+      console.log(`signature: ${signature}`);
+
+      const ajax$ = ajax({
+        url: url,
+        method: 'POST',
+        crossDomain: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        },
+        body: {
+          "signature": signature,
+          "identity": 'abc'
+        }
+      }).pipe(
         map(response => console.log('files: ', response)),
         catchError(error => {
           console.log('error: ', error);
           handleClick();
           return of(error);
         })
-    );
-      // .subscribe((result) => {
-      //     console.log(result);
-      // });
+      );
+        
+  
+      userSubscription = ajax$.subscribe();
 
-      ajax$.subscribe();
+
+    };
+
+    await reader.readAsText(file);
+
+    return;
+
+    // const ajax$ = ajax({
+    //   url: url,
+    //   crossDomain: true,
+    //   method: 'POST',
+    //   body: {
+    //     "signature": "aaa",
+	  //     "identity": "bbb"
+    //   },
+    //   })
+    //   .pipe(
+    //     map(response => console.log('files: ', response)),
+    //     catchError(error => {
+    //       console.log('error: ', error);
+    //       handleClick();
+    //       return of(error);
+    //     })
+    // );
+
+    // userSubscription = ajax$.subscribe();
   };
 
   const handleChange = (files) => {
     setFiles(files);
   }
+
+  useEffect(() => {
+
+    return () => {
+      if (userSubscription != null) {
+        userSubscription.unsubscribe();
+      }
+    }
+
+  });
 
   return(
     <div style={{margin: '24px 0' }} >
@@ -103,60 +160,8 @@ function CustomDropzoneArea(props) {
         </IconButton>,
         ]}
     />
-
     </div>
   );
 }
-
-// class DropzoneAreaExample extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       files: []
-//     };
-//   }
-
-  // handleChange(files) {
-  //   this.setState({
-  //     files: files
-  //   });
-  // }
-
-//   printFiles() {
-
-    // ajax({
-    //   url: 'http://localhost:8001/issue',
-    //   crossDomain: true,
-    //   withCredentials: false,
-    //   method: 'PUT',
-    //   body: {
-    //     "signature": "aaa",
-	  //     "identity": "bbb"
-    //   },
-    //   })
-    //   .subscribe((result) => {
-    //       console.log(result);
-    //   })
-//   }
-
-//   render(){
-//     return (
-        // <div style={{margin: '24px 0' }} >
-        //     <DropzoneArea
-        //       filesLimit={1}
-        //       showPreviews={false}
-        //       dropzoneText={"Drag and drop an image file here or click"}
-        //       onChange={this.handleChange.bind(this)}
-        //     />
-        //     <div style={{ margin: '13px 0' }} ></div>
-        //     <Button onClick={this.printFiles.bind(this)} >
-        //         Click
-        //     </Button>
-        // </div>
-      
-//     )  
-//   }
-// } 
 
 export default CustomDropzoneArea;
