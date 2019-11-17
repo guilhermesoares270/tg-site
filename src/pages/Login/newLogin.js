@@ -101,7 +101,7 @@ export default function SignInSide() {
       setInternalState({ ...internalState, open: false });
     };
 
-    const performLogin = () => {
+    const verifyLogin = () => {
       const url = 'http://127.0.0.1:3333/api/v1/sessions';
 
       const a$ = ajax({
@@ -119,9 +119,18 @@ export default function SignInSide() {
       }).pipe(
           map(response => {
               console.log('user: ', response);
+
+              if (response.status == 200) {
+                state.dispatch(performLogin());
+                setLocation('main');
+              } else {
+                setInternalState({ open: true, vertical: 'top', horizontal: 'center' });
+              }
+             
           }),
           catchError(error => {
             console.log('error: ', error);
+            setInternalState({ open: true, vertical: 'top', horizontal: 'center' });
             return of(error);
       }))
 
@@ -131,7 +140,11 @@ export default function SignInSide() {
     useEffect(() => {
 
       return () => {
-        userSubscription.unsubscribe();
+
+        if (userSubscription != null) {
+          userSubscription.unsubscribe();
+        }
+        
       }
     });
 
@@ -209,18 +222,22 @@ export default function SignInSide() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    // onClick={() => {
+                    //   if (email === 'guilherme@gmail.com' && password === '123') {
+                        // state.dispatch(performLogin());
+                        //   setLocation('main');
+                    //   } else {
+                    //     setInternalState({ open: true, vertical: 'top', horizontal: 'center' });
+                    //   }
+                    // }}
                     onClick={() => {
-                      if (email === 'guilherme@gmail.com' && password === '123') {
-                        state.dispatch(performLogin());
-                        // setValues({ ...values });
-                          setLocation('main');
-                        
-                      } else {
-                        setInternalState({ open: true, vertical: 'top', horizontal: 'center' });
+                      if (userSubscription != null) {
+                        userSubscription.unsubscribe();
                       }
+                      verifyLogin();
                     }}
                 >
-                    Cadastrar
+                    Entrar
                 </Button>
                 <Box mt={5}>
                     <Copyright />
