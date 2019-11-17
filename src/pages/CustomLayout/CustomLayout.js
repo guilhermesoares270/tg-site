@@ -3,6 +3,7 @@ import { Layout, Menu, Icon } from 'antd';
 import UploadForm from '../CreateContract/UploadFileForm';
 import ListFiles from '../ListFiles/ListFiles';
 import LoaderContainer from '../../components/LoaderContainer/LoaderContainer';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   List,
@@ -22,22 +23,36 @@ import {
   AccessAlarm as AccessAlarmIcon
 } from '@material-ui/icons'
 
+import { ajax } from 'rxjs/ajax';
+import { map, catchError, finalize, take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import axios from 'axios';
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+
+let isListLoading = true;
+let itens = [];
 
 const screens = (postition) => {
   switch (postition) {
     case 1:
       return <UploadForm />
     case 2:
-      return <LoaderContainer promise={
-        new Promise(function(resolve, reject){
-          setTimeout(function(){
-              resolve("Yeah !");
-          }, 3000);
-        })}
-        component={<ListFiles itens={['a', 'aa', 'aaa']} />}
-      />
+      // return <LoaderContainer promise={
+      //   new Promise(function(resolve, reject){
+      //     setTimeout(function(){
+      //         resolve("Yeah !");
+      //     }, 3000);
+      //   })}
+      //   component={<ListFiles itens={['a', 'aa', 'aaa']} />}
+      // />
+      if (isListLoading) {
+        return <CircularProgress />
+      } else {
+        return <ListFiles itens={itens} />
+      }
+
     default:
       return <h1>Select a valid option!</h1>
   }
@@ -64,6 +79,28 @@ const useStyles = makeStyles({
 });
 
 function CustomLayout() {
+
+// let isListLoading = true;
+  // const [isListLoading, setIsListLoading] = useState(true);
+  // const [itens, setItems] = useState([]);
+  const [reload, setReload] = useState(false);
+
+  const getList = async () => {
+
+    const request = await axios.get('http://127.0.0.1:3333/api/v1/ganache/index', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    });
+    console.log('aaa');
+
+    console.log(request.data);
+    itens = request.data;
+    isListLoading = false;
+    
+    setReload(!reload);
+  };
 
   const classes = useStyles();
 
@@ -117,13 +154,23 @@ function CustomLayout() {
               <Icon type="file" />
               <span>Novo Arquivos</span>
             </Menu.Item>
-            <Menu.Item  onClick={() => setState({ collapsed: state.collapsed, selected: 2 }) } key="2">
+            {/* <Menu.Item  onClick={() => setState({ collapsed: state.collapsed, selected: 2 }) } key="2"> */}
+            <Menu.Item  onClick={() => {
+              // getList().then(() => {
+              //   isListLoading = false;
+              // });
+              if (state.selected != 2) {
+                getList();
+                setState({ collapsed: state.collapsed, selected: 2 });
+              }
+              
+            } } key="2">
               <Icon type="desktop" />
               <span>Lista de Arquivos</span>
             </Menu.Item>
-            <Menu.Item  onClick={() => setIsOpened(!isOpened)} key="3">
+            {/* <Menu.Item  onClick={() => setIsOpened(!isOpened)} key="3">
               <Icon type="user" />
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu>
         </Sider>
         <Layout>

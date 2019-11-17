@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-    Button,
-    CssBaseline,
-    TextField,
-    Link,
-    Paper,
-    Box,
-    Grid,
-    Typography
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  SwipeableDrawer
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import state from '../../State/GlobalState';
@@ -15,6 +20,16 @@ import { performLogin } from '../../State/Actions/LoginActions';
 import Main from '../Main/App';
 import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import UserRegister from '../User/UserRegister';
+
+import {
+  MoveToInbox as InboxIcon,
+  Mail as MailIcon,
+  AccessAlarm as AccessAlarmIcon
+} from '@material-ui/icons'
+
+import { ajax } from 'rxjs/ajax';
+import { map, catchError } from 'rxjs/operators';
+import { of, pipe } from 'rxjs';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,7 +60,13 @@ const useStyles = makeStyles(theme => ({
   },
   warning: {
     background: 'red'
-  }
+  },
+  list: {
+    width: 600,
+  },
+  fullList: {
+    width: 'auto',
+  },
 }));
 
 // interface State extends SnackbarOrigin {
@@ -56,13 +77,13 @@ export default function SignInSide() {
 
     const classes = useStyles();
     const [location, setLocation] = useState('login');
+    const [isOpened, setIsOpened] = useState(false);
+    let userSubscription = null;
 
     const [values, setValues] = useState({
         email: '',
         password: ''
     });
-
-    const [logged, setIsLogged] = useState(false);
 
     const [internalState, setInternalState] = React.useState({
       open: false,
@@ -80,15 +101,39 @@ export default function SignInSide() {
       setInternalState({ ...internalState, open: false });
     };
 
-    // const page = () => {
-    //     console.log('page');
-    //     switch (state.getState().isLogged) {
-    //         case false:
-    //             return login();
-    //         default:
-    //             return <Main />
-    //     }
-    // }
+    const performLogin = () => {
+      const url = 'http://127.0.0.1:3333/api/v1/sessions';
+
+      const a$ = ajax({
+        url: url,
+        method: 'POST',
+        crossDomain: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        },
+        body: {
+            "email": email,
+            "password": password
+        }
+      }).pipe(
+          map(response => {
+              console.log('user: ', response);
+          }),
+          catchError(error => {
+            console.log('error: ', error);
+            return of(error);
+      }))
+
+      userSubscription = a$.subscribe();
+    }
+
+    useEffect(() => {
+
+      return () => {
+        userSubscription.unsubscribe();
+      }
+    });
 
     const page = (location, isLogged) => {
       if (location == 'main' && isLogged) {
@@ -100,21 +145,21 @@ export default function SignInSide() {
       }
     };
 
-    // const verifyLogin = () => {
-      
-    // }
-
     const Copyright = () => {
       return (
         <Typography variant="body2" color="textSecondary" align="center">
-          <Link color="inherit" href="https://material-ui.com/">
+          <Link color="inherit" >
             Blockchain
           </Link>{' '}
-          {/* <Link href="#" variant="body2"> */}
-          <Link onClick={() => { 
+          {/* <Link onClick={() => { 
             setLocation('user');
           }} variant="body2">
             {"Não tem um conta?"}
+          </Link> */}
+          <br />
+
+          <Link onClick={() => setIsOpened(true)} >
+            Não tem um conta?
           </Link>
         </Typography>
       );
@@ -130,7 +175,7 @@ export default function SignInSide() {
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                Sign in
+                  Cadastrar
                 </Typography>
                 <form className={classes.form} noValidate>
                 <TextField
@@ -175,7 +220,7 @@ export default function SignInSide() {
                       }
                     }}
                 >
-                    Sign In
+                    Cadastrar
                 </Button>
                 <Box mt={5}>
                     <Copyright />
@@ -196,6 +241,19 @@ export default function SignInSide() {
                 />
             </div>
             </Grid>
+
+
+          
+            <SwipeableDrawer
+              anchor="right"
+              open={isOpened}
+              onClose={() => setIsOpened(false)}
+              onOpen={() => setIsOpened(true)}
+              >
+                <UserRegister />
+            </SwipeableDrawer>
+
+
         </Grid>
         );
     };    

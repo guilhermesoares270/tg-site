@@ -1,24 +1,22 @@
-import React, { useRef, useEffect, Fragment } from 'react';
-import axios from 'axios';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 
 import {
     Grid,
     Typography,
     TextField,
-    Button
+    Button,
+    Link
 } from '@material-ui/core';
 
 import { ajax } from 'rxjs/ajax';
 import { map, catchError } from 'rxjs/operators';
 import { of, pipe } from 'rxjs';
 
-import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -30,10 +28,11 @@ const useStyles = makeStyles((theme) =>
 
 function UserRegister() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const history = useHistory();
+    const [open, setOpen] = useState(false);
+    const [snack, setSnack] = useState('');
 
-    const handleClick = () => {
+    const handleClick = (text) => {
+        setSnack(text);
         setOpen(true);
     };
 
@@ -48,50 +47,40 @@ function UserRegister() {
     const city = useRef('');
     const state = useRef('');
     const cep = useRef('');
-
-    const newUser$ = ajax({
-        url: 'http://127.0.0.1:3333/api/v1/users',
-        method: 'POST',
-        crossDomain: true,
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        },
-        body: {
-            "username": "Pedrão5",
-            "email": "pedrao5.pedrao5@gmail.com",
-            "password": "pedrao123"
-        }
-    }).pipe(
-        map(response => console.log('user: ', response)),
-        catchError(error => {
-          console.log('error: ', error);
-          handleClick();
-          return of(error);
-        })
-    );
+    const email = useRef('');
+    const password = useRef('');
 
     let userSubscription = null;
 
     const createNewUser = () => {
 
-        const url = 'http://127.0.0.1:3333/api/v1/users';
-        const config = {
+        const a$ = ajax({
+
+            url: 'http://127.0.0.1:3333/api/v1/users',
+            method: 'POST',
+            crossDomain: true,
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-              },
-        };
+            },
+            
+            body: {
+                "username": name.current.value,
+                "email": email.current.value,
+                "password": password.current.value
+            }
+        }).pipe(
+            map(response => {
+                console.log('user: ', response);
+                handleClick('Usuário Criado com sucesso');
+            }),
+            catchError(error => {
+              console.log('error: ', error);
+              handleClick('Erro ao criar usuário');
+              return of(error);
+            }))
 
-
-        // axios.post(url, {
-        //     username: "Pedrão",
-        //     email: "pedrao.pedrao@gmail.com",
-        //     password: "pedrao123"
-        // },
-        // config);
-
-        userSubscription = newUser$.subscribe();
+        userSubscription = a$.subscribe();
 
     };
 
@@ -108,9 +97,6 @@ function UserRegister() {
     const userRegister = () => (
         <div style={{ margin: '10px'}}>
             <Fragment>
-                <div onClick={() => {history.push('/')}}>
-                    <h2>Voltar</h2>
-                </div>
                 <Typography variant="h6" gutterBottom>
                     Cadastro de Usuários
                 </Typography>
@@ -124,6 +110,17 @@ function UserRegister() {
                         inputRef={name}
                         fullWidth
                         autoComplete="fname"
+                    />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                    <TextField
+                        required
+                        id="email"
+                        name="email"
+                        label="Email"
+                        inputRef={email}
+                        fullWidth
+                        autoComplete="femail"
                     />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -151,23 +148,29 @@ function UserRegister() {
                             autoComplete="billing postal-code"
                         />
                     </Grid>
+
+                    
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            id="password"
+                            name="password"
+                            label="Password"
+                            inputRef={password}
+                            fullWidth
+                            autoComplete="billing address-level2"
+                        />
+                    </Grid>
+
                 <Grid item xs={6} sm={6}>
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
-                        // onClick={() => {
-                        //     console.log(
-                        //         name.current.value,
-                        //         city.current.value,
-                        //         state.current.value,
-                        //         cep.current.value
-                        //     );
-                        // }}
                         onClick={createNewUser}
                     >
-                        Sign In
+                        Cadastrar
                     </Button>
                 </Grid>
                 </Grid>
@@ -184,7 +187,7 @@ function UserRegister() {
                 ContentProps={{
                 'aria-describedby': 'message-id',
                 }}
-                message={<span id="message-id">Erro ao criar usuário</span>}
+                message={<span id="message-id">{snack}</span>}
                 action={[
                 <IconButton
                     key="close"
