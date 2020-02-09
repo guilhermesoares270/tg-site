@@ -1,44 +1,64 @@
 <script>
-  console.log("Login");
+  import {
+    Tile,
+    Tabs,
+    Tab,
+    TabContent,
+    TabsSkeleton
+  } from "carbon-components-svelte";
+
+  import LoginForm from "./LoginForm.svelte";
+  import RegisterForm from "./RegisterForm.svelte";
 </script>
 
 <style>
-  .container {
+  .image-container {
+    display: flex;
+    height: 100%;
+    width: 60vw;
+    background: #2c3e50;
+    overflow: hidden;
+  }
+
+  .login-form {
+    height: 100%;
+    width: 40vw;
+    background: #ecf0f1;
+    padding: 65px;
+  }
+
+  .login-container {
+    display: flex;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    background: red;
-    padding: 5px;
   }
 
-  .login-modal {
-    width: 450px;
-    height: 340px;
+  .teste {
     display: flex;
-    background: green;
-    border-radius: 0 6px 6px 0;
-    justify-content: center;
-    /* align-items: center; */
-    padding: 7px;
-  }
-
-  .info-card {
-    color: #ffffff;
-    display: flex;
-    width: 220px;
+    width: 350px;
     height: 350px;
-    background: #282262;
-    border-radius: 6px;
-    justify-content: center;
-    align-items: center;
-    padding: 7px;
+    background: khaki;
   }
 </style>
 
-<div class="container">
-  <div class="info-card">Info card</div>
-  <div class="login-modal">Login</div>
+<div class="login-container">
+  <div class="image-container">
+    <img src="./images/blockchain-login.png" alt="blockchain network" />
+  </div>
+  <div class="login-form">
+    <Tabs style="display: flex; justify-content: center;">
+      <Tab tabindex="0" label="Entrar" />
+      <Tab tabindex="1" label="Cadastrar" />
+
+      <span slot="content">
+        <TabContent>
+          <LoginForm />
+        </TabContent>
+        <TabContent>
+          <RegisterForm />
+        </TabContent>
+      </span>
+    </Tabs>
+  </div>
+
 </div>

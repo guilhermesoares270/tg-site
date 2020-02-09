@@ -1,0 +1,21 @@
+.tab-content {
+    display: flex;
+    background: #ecf0f1;
+    height: 100%;
+    width: 100%;
+    padding: 4.5px;
+  }
+
+  .tab-item {
+    background: #bdc3c7;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    margin-right: 3.5px;
+    border-radius: 2px 2px 0 0;
+  }
+
+  .tab-header {
+    display: flex;
+    width: 100%;
+  }

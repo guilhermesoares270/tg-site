@@ -4,7 +4,10 @@
   import Upload from "../components/Upload.svelte";
   import Tabs from "../components/Tab.svelte";
 
-  const tabs = [{ id: 1, name: "tab1" }, { id: 2, name: "tab1" }];
+  const tabs = [
+    { id: 1, name: "tab1", component: "" },
+    { id: 2, name: "tab1", component: "" }
+  ];
 
   export let url = "";
 </script>
@@ -25,8 +28,8 @@
       <Upload />
     </Route>
     <Route path="/">
-      <!-- <Login /> -->
-      <Tabs {tabs} />
+      <!-- <Tabs {tabs} /> -->
+      <Login />
     </Route>
   </div>
 </Router>

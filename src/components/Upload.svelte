@@ -6,8 +6,12 @@
   div {
     background: yellow;
   }
+
+  .teste {
+    background: khaki;
+  }
 </style>
 
 <div>
-  <p>bbb</p>
+  <p class="teste">bbb</p>
 </div>

@@ -3,23 +3,24 @@
 </script>
 
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-    background: yellow;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
+  .app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* background: khaki; */
   }
 </style>
 
-<!-- <main>
-  Router
-</main> -->
+<!-- <svelte:head>
+  <link rel="stylesheet" href="./custom_css/carbon-components.min.css" />
+</svelte:head> -->
 
-<Router />
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/carbon-components@10.9.0/css/carbon-components.min.css" />
+</svelte:head>
+
+<div class="app-container">
+  <Router />
+</div>
