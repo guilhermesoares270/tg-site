@@ -17,6 +17,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "carbon-icons-svelte": "^10.9.0-rc.0",
     "remove": "^0.1.5",
     "sirv-cli": "^0.4.4",
     "svelte-routing": "^1.4.0"
