@@ -1,26 +1,31 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Login from './pages/Login';
+import Navbar from './components/Navbar/Navbar';
+import CadastroUsuario from './pages/CadastroUsuario/CadastroUsuario';
+import CadastroEmpresa from './pages/CadastroEmpresa';
+import Empresas from './pages/Empresas';
+import Usuarios from './pages/Usuarios';
+import Container from './components/Container';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <div className="container-fluid">
+        <div className="row">
+          <Navbar />
+        </div>
+      </div> */}
+      <Container />
+
+
+      {/* <CadastroUsuario /> */}
+      {/* <CadastroEmpresa /> */}
+      {/* <Empresas /> */}
+      {/* <Usuarios /> */}
+    </>
   );
-}
+};
 
 export default App;

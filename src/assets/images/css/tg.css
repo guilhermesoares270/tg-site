@@ -1,0 +1,201 @@
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+  }
+  
+  
+  
+  
+  .card {
+    background-color: #FEFEFE;
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+  }
+  
+  
+  
+  .reauth-email {
+    display: block;
+    color: #404040;
+    line-height: 2;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  .form-signin #inputEmail,
+  .form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+  }
+  
+  .form-signin input[type=email],
+  .form-signin input[type=password],
+  .form-signin input[type=text],
+  .form-signin button {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  input[type=checkbox] {
+    font-size: 14px;
+  }
+  
+  
+  
+  .btn.btn-signin {
+    background-color:  #212121;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 18px;
+    height: 36px;
+  
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  }
+  
+  .btn.btn-confirma {
+    font-size: 12px;
+    background-color: #212121;
+     border-width: medium;
+    border-style: solid;
+    color:#ffffff ;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  letter-spacing: .1rem; 
+    width: 150px;
+    height: 40px;
+    padding-top: 2px;
+  padding-bottom: 4px; 
+  
+  
+  
+  }
+  
+  
+  .btn.btn-editar {
+    font-size: 14px;
+    background-color: #01579B;
+     border-width: medium;
+    border-style: solid;
+    color:#ffffff ;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  letter-spacing: .1rem; 
+  
+  
+  
+  
+  }
+  
+  
+  
+  .btn.btn-excluir {
+    font-size: 14px;
+    background-color: red;
+     border-width: medium;
+    border-style: solid;
+    color:#ffffff ;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  letter-spacing: .1rem; 
+  margin-left: 10px;
+  
+  
+  
+  
+  }
+  .btn.btn-confirma:hover {
+    font-size: 12px;
+    background-color: #01579B;
+     border-width: medium;
+    border-style: solid;
+    color:#ffffff ;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  letter-spacing: .1rem; 
+    width: 150px;
+    height: 40px;
+    padding-top: 2px;
+  padding-bottom: 4px; 
+  
+  
+  
+  }
+  
+  .btn.btn-signin:hover,
+  .btn.btn-signin:active,
+  .btn.btn-signin:focus {
+    background-color:#01579B;
+    
+  }
+  
+  
+  
+  .forgot-password {
+    color: rgb(104, 145, 162);
+    font-size: 14px;
+  }
+  
+    .forgot-password:hover,
+    .forgot-password:active,
+    .forgot-password:focus {
+        color: rgb(12, 97, 33);
+    }
+  
+  .barra {
+    background-color: #212121;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+  }
+  
+  #alinha{
+    text-align: center; 
+    margin: 0 auto 0 auto;
+    font-size: 12px;
+    letter-spacing: 0.1em; 
+    font-family: 'Red Hat Display', medium;
+  
+  }
+  
