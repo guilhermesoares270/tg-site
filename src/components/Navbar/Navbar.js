@@ -16,7 +16,7 @@ const CustomNavbar = () => {
     return (
         <>
             <Navbar bg="dark" expand="lg" style={{ width: '100%', color: 'red' }}>
-                <a class="navbar-brand" href="#">LOGO</a>
+                <a className="navbar-brand" href="#">LOGO</a>
 
                 <Nav>
                     <NavDropdown title='Usuarios'>
