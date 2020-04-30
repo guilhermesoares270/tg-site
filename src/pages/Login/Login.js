@@ -7,7 +7,8 @@ import ReactLoading from 'react-loading';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const log = useSelector(x => x.isLogged);
+  // const log = useSelector(x => x.isLogged);
+  const log = useSelector(x => x.isLoggedState.isLogged);
 
   const [loading, setLoading] = useState(false);
 

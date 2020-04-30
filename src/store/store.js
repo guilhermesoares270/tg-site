@@ -1,17 +1,11 @@
-import { createStore } from 'redux';
-import { performLogin } from '../services/sessions';
+import { createStore, combineReducers } from 'redux';
+import { isLoggedState } from './loginStore';
+import { enterpriseStore } from './enterpriseStore';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const isLoggedState = (state = { isLogged: JSON.parse(localStorage.getItem('isLogged')) }, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      // const logged = performLogin(action.email, action.password);
-      // return { isLogged: logged };
-      return { isLogged: true };
-    case 'LOGOUT':
-      return { isLogged: false };
-    default:
-      return state;
-  }
-};
+const rootReducers = combineReducers({
+  isLoggedState,
+  enterpriseStore,
+});
 
-export default createStore(isLoggedState);  
+export default createStore(rootReducers, composeWithDevTools());
