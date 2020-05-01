@@ -3,34 +3,58 @@ import { Formik } from 'formik';
 import { DisplayFormikState } from './helper';
 import * as Yup from 'yup';
 import { create } from '../../services/enterprise';
+import {
+  Modal,
+  Button,
+} from 'react-bootstrap';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const CadastroEmpresa = (props) => {
+  const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleRedirect = () => <Link to="" />;
+  const handleShow = () => {
+    console.log(`success: ${success}`);
+    setShow(true);
+  };
+
+  const modalBody = 'Não foi possível criar a empresa';
+  const modalSuccess = 'Empresa criada com sucesso';
 
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Criação de empresa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{success ? modalSuccess : modalBody}</Modal.Body>
+        <Modal.Footer>
+          <Button className="btn btn-light btn-confirma" variant="secondary" onClick={handleClose}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Formik
         enableReinitialize={true}
         initialValues={{ ...props.initValues }}
         // initialValues={{ ...props }}
         onSubmit={async values => {
-          console.log(`isEdit: ${values.isEdit}`);
           try {
-            //   console.log(`isEdit: ${props.isEdit}`);
-            if (props.isEdit === false) {
-              alert(`Edit true`);
+            const send = Object.assign({}, values, { razao_social: values.razaoSocial });
+            delete send.passwordRepeat;
+            delete send.razaoSocial;
 
-              //     const send = Object.assign({}, values, { razao_social: values.razaoSocial });
-              //     delete send.passwordRepeat;
-              //     delete send.razaoSocial;
+            const res = await create(send);
 
-              //     const res = await create(send);
-              //     alert(JSON.stringify(res, null, 2));
-            } else {
-              alert('Edit false');
-            }
-
+            setSuccess(true);
+            handleShow();
           } catch (error) {
-            alert('Não foi possível criar a empresa', null, 2);
+            setSuccess(false);
+            handleShow();
           }
         }}
         validationSchema={Yup.object().shape({

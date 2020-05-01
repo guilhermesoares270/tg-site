@@ -21,8 +21,12 @@ export const del = async (id) => {
 
 export const findByPathParam = async (path) => {
   const res = Path.createPath('/enterprise/:enterprise').partialTest(path);
-  if (res == null) return false;
-  return !!(await get(res.enterprise));
+  if (res == null) return [false, null];
+  console.log(`partial: ${JSON.stringify(res)}, ent: ${res.enterprise}`);
+  const enterprise = await get(res.enterprise);
+  console.log(`enterprise: ${JSON.stringify(enterprise)}`);
+  const exist = enterprise != null
+  return [exist, enterprise];
 }
 
 export default {

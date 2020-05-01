@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Container from './components/Container';
+import EnterpriseFinder from './components/Container/EnterpriseFinder';
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
@@ -8,7 +9,10 @@ import {
 const App = () => {
   return (
     <Router>
-      <Container />
+      {/* <Container /> */}
+      <EnterpriseFinder>
+        <Container />
+      </EnterpriseFinder>
     </Router>
   );
 };

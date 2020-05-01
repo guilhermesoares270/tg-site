@@ -1,42 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import Login from '../../pages/Login/Login';
 import CadastroEmpresa from '../../pages/CadastroEmpresa';
 import CadastroUsuario from '../../pages/CadastroUsuario';
 import ListarEmpresa from '../../pages/Empresas';
 import { useLocation, withRouter } from 'react-router-dom';
-
 import {
-  // BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
 import { useSelector } from 'react-redux';
-// import { Path } from 'path-parser'
-import { findByPathParam, get } from '../../services/enterprise';
 
 const Container = () => {
-
   const location = useLocation();
-
   const logged = useSelector(x => x.isLoggedState.isLogged);
-  console.log(`Container: ${logged} - ${typeof logged}`);
+  const cnpj = useSelector(x => x.enterpriseStore.cnpj);
+  const prefix = `enterprise/${cnpj}`;
 
   const allowedRoutes = [
     '/cadastroUsuario'
   ];
-
-  useEffect(() => {
-    (async () => {
-
-      // const t = await get('43850031810');
-      // console.log(`ttt: ${JSON.stringify(t)}`);
-
-      const p = await findByPathParam(location.pathname);
-      console.log(`ppp: ${p}`);
-      // console.log(`path: ${JSON.stringify(path)}`);
-    })();
-  }, []);
 
   const NotLogged = () => <Login />;
 
@@ -45,11 +28,10 @@ const Container = () => {
       <>
         <div className="container-fluid">
           <div className="row">
-            {/* <Router> */}
             <Navbar />
             <div className="container">
               <Switch>
-                <Route path="/cadastroEmpresa">
+                <Route path={`/${prefix}/cadastroEmpresa`}>
                   <CadastroEmpresa initValues={{
                     email: '',
                     razaoSocial: '',
@@ -59,24 +41,22 @@ const Container = () => {
                     isEdit: false,
                   }} />
                 </Route>
-                <Route path="/cadastroUsuario">
+                <Route path={`/${prefix}/cadastroUsuario`} >
                   <CadastroUsuario />
                 </Route>
-                <Route path="/listarEmpresa">
+                <Route path={`${prefix}/listarEmpresa`} >
                   <ListarEmpresa />
                 </Route>
-                <Route path="/">
-                  <CadastroEmpresa />
+                <Route path={`/${prefix}/`}>
+                  <Login />
                 </Route>
               </Switch>
             </div>
-            {/* </Router> */}
           </div>
         </div>
       </>
     );
   };
-
   return (logged || allowedRoutes.includes(location.pathname) ? <Logged /> : <NotLogged />);
 };
 export default withRouter(Container);

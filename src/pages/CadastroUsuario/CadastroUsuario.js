@@ -3,11 +3,39 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { create } from '../../services/user';
 import { DisplayFormikState } from '../CadastroEmpresa/helper';
+import { Modal, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ROUTES_PREFIX } from '../../shared/global';
 
 const CadastroUsuario = () => {
+  const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleRedirect = () => <Link to={`${ROUTES_PREFIX()}/cadastroUsuario`} />;
+  const handleShow = () => {
+    console.log(`success: ${success}`);
+    setShow(true);
+  };
+
+  const modalBody = 'Não foi possível criar o usuário';
+  const modalSuccess = 'Usuário criado com sucesso';
 
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Criação de usuário</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{success ? modalSuccess : modalBody}</Modal.Body>
+        <Modal.Footer>
+          <Button className="btn btn-light btn-confirma" variant="secondary" onClick={handleClose}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Formik
         initialValues={{
           nome: '',
@@ -26,9 +54,13 @@ const CadastroUsuario = () => {
               razao_social: `${values.nome}/${values.email}`
             };
             const newUser = await create(user);
-            alert(JSON.stringify(newUser, null, 2));
+
+            setSuccess(true);
+            handleShow();
+
           } catch (error) {
-            alert('Não foi possível criar o usuário', null, 2);
+            setSuccess(false);
+            handleShow();
           }
 
         }}

@@ -7,7 +7,6 @@ import ReactLoading from 'react-loading';
 
 const Login = () => {
   const dispatch = useDispatch();
-  // const log = useSelector(x => x.isLogged);
   const log = useSelector(x => x.isLoggedState.isLogged);
 
   const [loading, setLoading] = useState(false);
@@ -60,7 +59,14 @@ const Login = () => {
                   setLoading(true);
                   console.log(`performing login`);
                   try {
-                    await performLogin(email.current.value, password.current.value);
+                    const isLogged = await performLogin(email.current.value, password.current.value);
+                    dispatch({
+                      type: 'SETENTERPRISE',
+                      email: 'enterpriseData.email',
+                      razaoSocial: 'enterpriseData.razao_social',
+                      cnpj: isLogged.enterprise_cnpj,
+                      isEdit: false,
+                    });
                     dispatch({
                       type: 'LOGIN',
                       email: email.current.value,
