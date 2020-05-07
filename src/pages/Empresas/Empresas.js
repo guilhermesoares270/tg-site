@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { index, del } from '../../services/enterprise';
 import {
   Link,
-  Redirect,
 } from "react-router-dom";
 import { CadastroEmpresa } from '../CadastroEmpresa/CadastroEmpresa';
 
@@ -13,7 +12,7 @@ const Empresas = () => {
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(false);
   const [enter, setEnter] = useState({});
-  // let editEnterprise = null;
+  const [error, setError] = useState(false);
 
   const getEnterpriseById = id => {
     const enterprise = enterprises.filter(x => x.id === id);
@@ -22,48 +21,44 @@ const Empresas = () => {
   };
 
   const handleEdit = async id => {
-    console.log(`edit: ${id}`);
-    // editEnterprise = getEnterpriseById(id);
     setEnter(getEnterpriseById(id));
-    console.log(`ppp: ${JSON.stringify(enter)}`);
     setEdit(true);
   };
 
   const handleExclude = async id => {
-    console.log('exclude');
     await del(id);
+    setRefetch(true);
   };
 
   useEffect(() => {
-    console.log('aaa');
     (async () => {
-      if (enterprises.length === 0 && refetch) {
-        setLoading(true);
-        const res = await index();
-        await setEnterprises(res);
-        console.log(JSON.stringify(res));
-        setLoading(false);
-        setRefetch(false);
+      try {
+        // if (enterprises.length === 0 && refetch) {
+        if (refetch) {
+          setLoading(true);
+          const res = await index();
+          await setEnterprises(res);
+          setLoading(false);
+          setRefetch(false);
+        }
+      } catch (error) {
+        setError(true);
       }
     })();
-  }, [loading]);
+  }, [loading, refetch]);
 
   return (
     <>
       {
-        edit && enter && <Link to='/cadastroEmpresa' >
+        error && <h1>Error</h1>
+      }
+      {
+        edit && enter && !error && <Link to='/cadastroEmpresa' >
           <CadastroEmpresa initValues={{ ...enter }} />
-          {/* <CadastroEmpresa initValues={{
-            email: enter.email,
-            razaoSocial: enter.razao_social,
-            cnpj: enter.cnpj,
-            password: enter.password,
-            passwordRepeat: enter.password,
-          }} /> */}
         </Link>
       }
       {
-        !edit && <>
+        !edit && !error && <>
           <Formik
             initialValues={{
               nome: '',
@@ -114,21 +109,17 @@ const Empresas = () => {
                                 <td>{x.email}</td>
                                 <td>{x.cep}</td>
                                 <td>
-                                  {/* <a className="btn btn-editar" href="edita_empresa.html" role="button">Editar</a> */}
-                                  {/* <a className="btn btn-excluir" href="" role="button">Excluir</a> */}
-
                                   <button
                                     type="button"
                                     className="outline btn btn-light btn-confirma"
                                     onClick={handleEdit.bind(null, x.id)}
-                                  // disabled={!dirty || isSubmitting}
                                   >
                                     Editar
                               </button>
                                   <button
                                     type="button"
                                     className="outline btn btn-light btn-confirma"
-                                    onClick={handleExclude}
+                                    onClick={handleExclude.bind(null, x.id)}
                                   >
                                     Excluir
                               </button>

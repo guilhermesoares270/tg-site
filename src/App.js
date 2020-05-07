@@ -9,10 +9,10 @@ import {
 const App = () => {
   return (
     <Router>
-      {/* <Container /> */}
-      <EnterpriseFinder>
+      <Container />
+      {/* <EnterpriseFinder>
         <Container />
-      </EnterpriseFinder>
+      </EnterpriseFinder> */}
     </Router>
   );
 };

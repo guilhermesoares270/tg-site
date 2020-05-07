@@ -7,6 +7,8 @@ import Login from '../../pages/Login/Login';
 import { useDispatch } from 'react-redux';
 import { ROUTES_PREFIX } from '../../shared/global';
 import CadastroUsuario from '../../pages/CadastroUsuario';
+import CadastroEmpresa from '../../pages/CadastroEmpresa';
+import UploadArquivos from '../../pages/UploadArquivos/UploadArquivos';
 import { useSelector } from 'react-redux';
 
 const verifyEnterprise = (props) => {
@@ -19,7 +21,9 @@ const verifyEnterprise = (props) => {
   const dispatch = useDispatch();
 
   const allowedRoutes = [
-    '/cadastroUsuario'
+    '/cadastroUsuario',
+    '/cadastroEmpresa',
+    '/uploadArquivos'
   ];
 
   useEffect(() => {
@@ -48,11 +52,19 @@ const verifyEnterprise = (props) => {
     <>
       {console.log(`uuu: ${allowedRoutes.includes(location.pathname)}`)}
       {
-        allowed && <CadastroUsuario />
+        allowed && location.pathname == '/cadastroUsuario' && <CadastroUsuario />
       }
-      {console.log(`exit: ${exist} - loading: ${loading}`)}
+      {
+        allowed && location.pathname == '/cadastroEmpresa' && <CadastroEmpresa />
+      }
+      {
+        allowed && location.pathname == '/uploadArquivos' && <UploadArquivos />
+      }
       {
         !exist && !loading && !allowed && <Login />
+      }
+      {
+        console.log(`exist: ${exist} - loading: ${loading}`)
       }
       {
         !exist && !allowed && (

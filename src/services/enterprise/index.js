@@ -16,7 +16,8 @@ export const get = async (cnpj) => {
 };
 
 export const del = async (id) => {
-  return (await axios.get('/enterprises', AxiosConfig)).data;
+  // return (await axios.get('/enterprises', AxiosConfig)).data;
+  return (await axios.delete(`/enterprises/${id}`, AxiosConfig)).data;
 };
 
 export const findByPathParam = async (path) => {

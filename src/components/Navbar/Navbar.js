@@ -17,13 +17,14 @@ const CustomNavbar = () => {
 
         <Nav>
           <NavDropdown title='Usuarios'>
-            <Link className="nav-link" to={`${ROUTES_PREFIX()}/cadastroUsuario`} >Novo Usuário</Link>
-            <Link className="nav-link" to={`${ROUTES_PREFIX()}/editarUsuario`} >Editar Usuário</Link>
+            <Link className="nav-link" to='/cadastroUsuario' >Novo Usuário</Link>
+            <Link className="nav-link" to='/editarUsuario' >Editar Usuário</Link>
           </NavDropdown>
 
           <NavDropdown title='Empresas'>
-            <Link className="nav-link" to={`${ROUTES_PREFIX()}/cadastroEmpresa`} >Nova Empresa</Link>
-            <Link className="nav-link" to={`${ROUTES_PREFIX()}/editarEmpresa`} >Editar Empresa</Link>
+            <Link className="nav-link" to='/cadastroEmpresa' >Nova Empresa</Link>
+            <Link className="nav-link" to='/listarArquivos' >Listar Arquivos</Link>
+            <Link className="nav-link" to='/uploadArquivos'>Upload Arquivos</Link>
           </NavDropdown>
         </Nav>
 

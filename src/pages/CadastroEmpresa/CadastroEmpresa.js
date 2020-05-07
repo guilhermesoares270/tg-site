@@ -8,14 +8,16 @@ import {
   Button,
 } from 'react-bootstrap';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { ROUTES_PREFIX } from '../../shared/global';
 
 export const CadastroEmpresa = (props) => {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleRedirect = () => <Link to="" />;
+  // const handleClose = () => setShow(false);
+  const handleClose = () => setRedirect(true);
   const handleShow = () => {
     console.log(`success: ${success}`);
     setShow(true);
@@ -24,8 +26,8 @@ export const CadastroEmpresa = (props) => {
   const modalBody = 'Não foi possível criar a empresa';
   const modalSuccess = 'Empresa criada com sucesso';
 
-  return (
-    <>
+  const form = () => {
+    return (<>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Criação de empresa</Modal.Title>
@@ -41,18 +43,20 @@ export const CadastroEmpresa = (props) => {
       <Formik
         enableReinitialize={true}
         initialValues={{ ...props.initValues }}
-        // initialValues={{ ...props }}
         onSubmit={async values => {
           try {
-            const send = Object.assign({}, values, { razao_social: values.razaoSocial });
+            const send = Object.assign({}, values, { razao_social: values.razaoSocial, cep: values.cep.toString() });
             delete send.passwordRepeat;
             delete send.razaoSocial;
+
+            console.log(`obj: ${JSON.stringify(send)}`);
 
             const res = await create(send);
 
             setSuccess(true);
             handleShow();
           } catch (error) {
+            console.log(`error: ${error.message}`);
             setSuccess(false);
             handleShow();
           }
@@ -149,6 +153,20 @@ export const CadastroEmpresa = (props) => {
                     onBlur={handleBlur}
                   ></input>
                 </div>
+
+                <div className="form-group col-md-6">
+                  <label for="cep" ><strong>Cep:</strong></label>
+                  <input
+                    id="cep"
+                    className="form-control"
+                    placeholder="Cep"
+                    type="number"
+                    value={values.cep}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  ></input>
+                </div>
+
               </div>
 
               {
@@ -181,11 +199,22 @@ export const CadastroEmpresa = (props) => {
                 </center>
               </div>
 
-              <DisplayFormikState {...props} />
+              {/* <DisplayFormikState {...props} /> */}
             </form>
           );
         }}
       </Formik>
+    </>);
+  }
+
+  return (
+    <>
+      {
+        console.log(`redirect: ${redirect}`)
+      }
+      {
+        redirect ? <Redirect to={`${ROUTES_PREFIX()}/listarArquivos`} /> : form()
+      }
     </>
   );
 };
