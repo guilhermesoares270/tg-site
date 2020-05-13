@@ -5,6 +5,7 @@ import CadastroEmpresa from '../../pages/CadastroEmpresa';
 import CadastroUsuario from '../../pages/CadastroUsuario';
 import ListarEmpresa from '../../pages/Empresas';
 import ListFiles from '../../pages/ListFiles';
+import UploadArquivos from '../../pages/UploadArquivos';
 import { useLocation, withRouter, Router, Redirect } from 'react-router-dom';
 import {
   Switch,
@@ -33,7 +34,10 @@ export const Container = () => {
       <div className="container-fluid">
         <div className="row">
           <Navbar />
-          <div className="container">
+          <div className="container justify-content-center" >
+            <div style={{
+              height: '50px'
+            }} ></div>
             <Switch>
               <Route exact path='/'>
                 <Login />
@@ -49,6 +53,9 @@ export const Container = () => {
               </PrivateRoute>
               <PrivateRoute exact path='/listarArquivos' >
                 <ListFiles />
+              </PrivateRoute>
+              <PrivateRoute exact path='/subirArquivo'>
+                <UploadArquivos />
               </PrivateRoute>
             </Switch>
           </div>

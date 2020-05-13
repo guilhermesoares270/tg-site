@@ -7,12 +7,11 @@ import {
   Navbar,
   Nav,
 } from 'react-bootstrap';
-import { ROUTES_PREFIX } from '../../shared/global';
 
 const CustomNavbar = () => {
   return (
     <>
-      <Navbar bg="dark" expand="lg" style={{ width: '100%', color: 'red' }}>
+      <Navbar bg="dark" expand="lg" style={{ width: '100%' }}>
         <a className="navbar-brand" href="#">LOGO</a>
 
         <Nav>
@@ -24,7 +23,7 @@ const CustomNavbar = () => {
           <NavDropdown title='Empresas'>
             <Link className="nav-link" to='/cadastroEmpresa' >Nova Empresa</Link>
             <Link className="nav-link" to='/listarArquivos' >Listar Arquivos</Link>
-            <Link className="nav-link" to='/uploadArquivos'>Upload Arquivos</Link>
+            <Link className="nav-link" to='/subirArquivo'>Upload Arquivos</Link>
           </NavDropdown>
         </Nav>
 

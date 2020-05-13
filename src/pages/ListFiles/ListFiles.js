@@ -7,6 +7,7 @@ const ListFiles = (props) => {
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [enterprise, setEnterprise] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -14,21 +15,27 @@ const ListFiles = (props) => {
         setLoading(true);
         const enterprise = await currentEnterpriseContract();
         const listOfDocuments = await index();
+        console.log(`iii: ${JSON.stringify(listOfDocuments)}`);
+
+        setFileList(listOfDocuments);
         setEnterprise(enterprise);
-        setFileList(fileList);
         setLoading(false);
       } catch (error) {
         console.log(`ListFiles: error: ${error}`);
+        setError(error);
       }
     })();
   }, []);
 
   return (
     <>
-      {console.log(`popopo: ${JSON.stringify(fileList)}`)}
-      {loading && <ReactLoading type="spin" color="#212121" height={50} width={50} />}
       {
-        !loading &&
+        error && <h1>Error</h1>
+      }
+      {/* {console.log(`popopo: ${JSON.stringify(fileList)}`)} */}
+      {loading && !error && <ReactLoading type="spin" color="#212121" height={50} width={50} />}
+      {
+        !loading && !error &&
         <>
           <Formik
             initialValues={{
@@ -57,7 +64,9 @@ const ListFiles = (props) => {
                 return (
                   <>
                     <form onSubmit={handleSubmit}>
-                      <div className="col-md-12 col-sm-12 col-xl-12">
+                      <div className="col-md-12 col-sm-12 col-xl-12" style={{
+                        wordWrap: 'anywhere'
+                      }}>
                         <h2>Listar Arquivos</h2>
                         <br />
                         <table class="table">
@@ -67,7 +76,7 @@ const ListFiles = (props) => {
                               <th scope="col"><strong>Identity</strong></th>
                             </tr>
                           </thead>
-                          {fileList.map(x => {
+                          {fileList.data.map(x => {
                             return (
                               <tr>
                                 <td>{x.signature}</td>

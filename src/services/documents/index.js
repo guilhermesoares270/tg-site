@@ -9,7 +9,13 @@ export const currentEnterpriseContract = async () => {
   return (await axios.get('/ganache/enterprise', AxiosConfig)).data;
 };
 
+export const storeContract = async (sigAndIden) => {
+  console.log(`sig: ${JSON.stringify(sigAndIden)}`);
+  return (await axios.post('/ganache', sigAndIden, AxiosConfig)).data;
+};
+
 export default {
   index,
-  currentEnterpriseContract
+  currentEnterpriseContract,
+  storeContract,
 };

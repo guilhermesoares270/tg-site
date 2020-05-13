@@ -5,15 +5,20 @@ import { create } from '../../services/user';
 import { DisplayFormikState } from '../CadastroEmpresa/helper';
 import { Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { ROUTES_PREFIX } from '../../shared/global';
+import ReactLoading from 'react-loading';
+import InputMask from 'react-input-mask';
 
-const CadastroUsuario = () => {
+const CadastroUsuario = (props) => {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleRedirect = () => <Link to={`${ROUTES_PREFIX()}/cadastroUsuario`} />;
+  const handleClose = () => {
+    props.history.push('/listarArquivos');
+  };
+
   const handleShow = () => {
     console.log(`success: ${success}`);
     setShow(true);
@@ -23,7 +28,7 @@ const CadastroUsuario = () => {
   const modalSuccess = 'Usuário criado com sucesso';
 
   return (
-    <>
+    <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Criação de usuário</Modal.Title>
@@ -46,6 +51,7 @@ const CadastroUsuario = () => {
           passwordRepeat: '',
         }}
         onSubmit={async values => {
+          setLoading(true);
           try {
             const user = {
               username: values.nome,
@@ -54,12 +60,16 @@ const CadastroUsuario = () => {
               razao_social: `${values.nome}/${values.email}`
             };
             const newUser = await create(user);
+            if (newUser.errors.length !== 0) throw Error('Some errors ocurred');
 
             setSuccess(true);
             handleShow();
 
+            setLoading(false);
+
           } catch (error) {
             setSuccess(false);
+            setLoading(false);
             handleShow();
           }
 
@@ -67,9 +77,9 @@ const CadastroUsuario = () => {
         validationSchema={Yup.object().shape({
           email: Yup.string()
             .email()
-            .required("Required"),
-          // cpf: Yup.string()
-          //   .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'CPF inválido'),
+            .required("O campo de email é obrigatório"),
+          cpf: Yup.string()
+            .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'CPF inválido').required("O campo de cpf é obrigatório"),
         })}
       >
         {props => {
@@ -86,9 +96,6 @@ const CadastroUsuario = () => {
           } = props;
           return (
             <>
-              <br />
-              <br />
-              <br />
               <form onSubmit={handleSubmit}>
 
                 <div className="col-md-12 col-xl-12 col-sm-12" >
@@ -139,16 +146,17 @@ const CadastroUsuario = () => {
                     </div>
                     <div className="form-group col-md-2 col-xl-6 col-sm-12">
                       <label for="cpf" id="contato"><strong>CPF</strong></label>
-                      <input
+                      <InputMask
                         id="cpf"
                         className="form-control"
                         placeholder="CPF"
                         type="text"
+                        mask="999.999.999-99"
                         value={values.cpf}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
-                      </input>
+                      </InputMask>
                     </div>
                   </div>
 
@@ -166,7 +174,7 @@ const CadastroUsuario = () => {
                       >
                       </input>
                     </div>
-                    <div className="form-group col-md-4 col-xl-6 col-sm-12">
+                    {/* <div className="form-group col-md-4 col-xl-6 col-sm-12">
                       <label for="passwordRepeat"><strong>Confirmar Senha:</strong></label>
                       <input
                         id="passwordRepeat"
@@ -178,12 +186,17 @@ const CadastroUsuario = () => {
                         onBlur={handleBlur}
                       >
                       </input>
-                    </div>
+                    </div> */}
                   </div>
 
                   {
                     errors.email && touched.email && (
                       <div className="input-feedback">{errors.email}</div>
+                    )
+                  }
+                  {
+                    errors.cpf && touched.cpf && (
+                      <div className="input-feedback">{errors.cpf}</div>
                     )
                   }
 
@@ -196,13 +209,18 @@ const CadastroUsuario = () => {
                         disabled={!dirty || isSubmitting}
                       >
                         Reset
-                </button>
-                      <button
-                        type="submit"
-                        className="btn btn-light btn-confirma"
-                        disabled={isSubmitting}
-                      >CONFIRMAR
-                    </button>
+                      </button>
+
+                      {
+                        loading ? <center><ReactLoading type="spin" color="#212121" height={50} width={50} /></center> :
+                          <button
+                            type="submit"
+                            className="btn btn-light btn-confirma"
+                            disabled={isSubmitting}
+                          >CONFIRMAR
+                          </button>
+                      }
+
                     </center>
                   </div>
 
@@ -214,8 +232,9 @@ const CadastroUsuario = () => {
           );
         }}
       </Formik>
-    </>
+    </div>
   );
 };
 
-export default CadastroUsuario;
+// export default CadastroUsuario;
+export default withRouter(CadastroUsuario);
