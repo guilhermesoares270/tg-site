@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { index, currentEnterpriseContract } from '../../services/documents';
 import ReactLoading from 'react-loading';
 import { Formik } from 'formik';
+import { Table } from 'react-bootstrap';
 
 const ListFiles = (props) => {
   const [fileList, setFileList] = useState([]);
@@ -64,48 +65,51 @@ const ListFiles = (props) => {
                 return (
                   <>
                     <form onSubmit={handleSubmit}>
-                      <div className="col-md-12 col-sm-12 col-xl-12" style={{
-                        wordWrap: 'anywhere'
-                      }}>
-                        <h2>Listar Arquivos</h2>
-                        <br />
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col"><strong>Signature</strong></th>
-                              <th scope="col"><strong>Identity</strong></th>
-                            </tr>
-                          </thead>
+                      <h2>Listar Arquivos</h2>
+                      <br />
+
+                      <Table striped bordered hover responsive="md" size="sm">
+                        <thead>
+                          <th scope="col"><strong>CPF</strong></th>
+                          <th scope="col"><strong>Email</strong></th>
+                          <th scope="col"><strong>Ações</strong></th>
+                        </thead>
+                        <tbody>
                           {fileList.data.map(x => {
                             return (
                               <tr>
-                                <td>{x.signature}</td>
+                                {console.log(`FileList: ${JSON.stringify(x)}`)}
+                                {/* <td>{x.signature}</td> */}
                                 <td>{x.identity}</td>
                                 <td>{x.email}</td>
-                                <td>{x.cep}</td>
                                 <td>
-                                  <button
-                                    type="button"
-                                    className="outline btn btn-light btn-confirma"
-                                    // onClick={handleEdit.bind(null, x.id)}
-                                    onClick={() => console.log(`edit`)}
-                                  >
-                                    Editar
-                              </button>
-                                  <button
-                                    type="button"
-                                    className="outline btn btn-light btn-confirma"
-                                    // onClick={handleExclude}
-                                    onClick={() => console.log(`exclude`)}
-                                  >
-                                    Excluir
-                              </button>
+                                  <div>
+                                    <center>
+                                      <button
+                                        type="button"
+                                        className="outline btn btn-light btn-confirma"
+                                        // onClick={handleExclude}
+                                        onClick={() => console.log(`exclude`)}
+                                      >
+                                        Verificar
+                                    </button>
+
+                                      <button
+                                        type="button"
+                                        className="outline btn btn-light btn-confirma"
+                                        // onClick={handleExclude}
+                                        onClick={() => console.log(`exclude`)}
+                                      >
+                                        Excluir
+                                    </button>
+                                    </center>
+                                  </div>
                                 </td>
                               </tr>
                             );
                           })}
-                        </table>
-                      </div>
+                        </tbody>
+                      </Table>
                     </form>
                   </>
                 );

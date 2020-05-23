@@ -11,13 +11,15 @@ import {
 const CustomNavbar = () => {
   return (
     <>
+      {/* variant="dark"  */}
       <Navbar bg="dark" expand="lg" style={{ width: '100%' }}>
         <a className="navbar-brand" href="#">LOGO</a>
 
         <Nav>
           <NavDropdown title='Usuarios'>
             <Link className="nav-link" to='/cadastroUsuario' >Novo Usuário</Link>
-            <Link className="nav-link" to='/editarUsuario' >Editar Usuário</Link>
+            {/* <Link className="nav-link" to='/editarUsuario' >Editar Usuário</Link> */}
+            <Link className="nav-link" to='/validateFile' >Validar Arquivo</Link>
           </NavDropdown>
 
           <NavDropdown title='Empresas'>

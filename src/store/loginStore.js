@@ -1,5 +1,3 @@
-import { performLogin } from '../services/sessions';
-
 export const isLoggedState = (state = { isLogged: JSON.parse(localStorage.getItem('isLogged')) }, action) => {
   switch (action.type) {
     case 'LOGIN':

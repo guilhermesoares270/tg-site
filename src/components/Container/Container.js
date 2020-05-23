@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import Login from '../../pages/Login/Login';
 import CadastroEmpresa from '../../pages/CadastroEmpresa';
@@ -6,26 +6,18 @@ import CadastroUsuario from '../../pages/CadastroUsuario';
 import ListarEmpresa from '../../pages/Empresas';
 import ListFiles from '../../pages/ListFiles';
 import UploadArquivos from '../../pages/UploadArquivos';
-import { useLocation, withRouter, Router, Redirect } from 'react-router-dom';
+import ValidateFile from '../../pages/ValidateFile';
+import { withRouter, Redirect } from 'react-router-dom';
 import {
   Switch,
   Route,
 } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { ROUTES_PREFIX } from '../../shared/global';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log(`isLogged: ${localStorage.getItem('isLogged')}`);
-  return <Route
-    {...rest}
-    render={props =>
-      localStorage.getItem('isLogged') ? (
-        <Component {...props} />
-      ) : (
-          <Redirect to={{ pathname: '/' }} />
-        )
-    }
-  />
+  const logged = localStorage.getItem('isLogged') == 'true';
+  console.log(`log: ${logged} - ${typeof logged}`);
+  return logged ? <Route {...rest} render={props => (<Component {...props} />)} /> :
+    <Redirect to={{ pathname: '/' }} />;
 }
 
 export const Container = () => {
@@ -54,8 +46,11 @@ export const Container = () => {
               <PrivateRoute exact path='/listarArquivos' >
                 <ListFiles />
               </PrivateRoute>
-              <PrivateRoute exact path='/subirArquivo'>
+              <PrivateRoute exact path='/subirArquivo' >
                 <UploadArquivos />
+              </PrivateRoute>
+              <PrivateRoute exact path='/compararArquivo' >
+                <ValidateFile />
               </PrivateRoute>
             </Switch>
           </div>

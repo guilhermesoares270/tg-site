@@ -50,25 +50,25 @@ export const UploadArquivos = () => {
       }
       {
         !loading && !error &&
-        <div class="container-fluid">
+        <div className="container-fluid">
           <center><h4> Enviar de Arquivo </h4></center>
           <br />
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xl-4">
+          <div className="row">
+            <div className="col-md-12 col-sm-12 col-xl-4">
             </div>
           </div>
 
-          <div class="col-md-12 col-sm-12 col-xl-4"></div>
+          <div className="col-md-12 col-sm-12 col-xl-4"></div>
 
           <form>
-            <div class="custom-file">
+            <div className="custom-file">
               <input
                 type="file"
-                class="custom-file-input"
+                className="custom-file-input"
                 id="customFile"
                 onChange={(e) => setFile(e.currentTarget.files[0])}
               ></input>
-              <label class="custom-file-label" for="customFile">Procurar</label>
+              <label className="custom-file-label" htmlFor="customFile">Procurar</label>
             </div>
 
             <br />

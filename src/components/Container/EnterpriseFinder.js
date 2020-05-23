@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { findByPathParam } from '../../services/enterprise';
@@ -5,14 +6,11 @@ import ReactLoading from 'react-loading';
 import { useLocation, withRouter } from 'react-router-dom';
 import Login from '../../pages/Login/Login';
 import { useDispatch } from 'react-redux';
-import { ROUTES_PREFIX } from '../../shared/global';
 import CadastroUsuario from '../../pages/CadastroUsuario';
 import CadastroEmpresa from '../../pages/CadastroEmpresa';
 import UploadArquivos from '../../pages/UploadArquivos/UploadArquivos';
-import { useSelector } from 'react-redux';
 
 const verifyEnterprise = (props) => {
-  const cnpj = useSelector(x => x.enterpriseStore.cnpj);
   const [exist, setExist] = useState(false);
   const [loading, setLoading] = useState(true);
   const [allowed, setAllowed] = useState(false);
@@ -46,6 +44,7 @@ const verifyEnterprise = (props) => {
       setExist(found);
       setLoading(false);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exist, loading]);
 
   return (

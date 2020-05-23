@@ -5,8 +5,7 @@ import { create } from '../../services/user';
 import { DisplayFormikState } from '../CadastroEmpresa/helper';
 import { Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { ROUTES_PREFIX } from '../../shared/global';
+import { withRouter } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import InputMask from 'react-input-mask';
 
@@ -16,7 +15,9 @@ const CadastroUsuario = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
-    props.history.push('/listarArquivos');
+    if (success)
+      props.history.push('/');
+    else setShow(false);
   };
 
   const handleShow = () => {
@@ -26,6 +27,23 @@ const CadastroUsuario = (props) => {
 
   const modalBody = 'Não foi possível criar o usuário';
   const modalSuccess = 'Usuário criado com sucesso';
+
+  const touchedAndWrong = (errors, touched) => {
+    const errorsKeys = Object.keys(errors);
+    const touchedKeys = Object.keys(touched);
+
+    return (
+      <>
+        {
+          errorsKeys.map(x => {
+            if (touchedKeys.includes(x)) {
+              return <div className="input-feedback">{errors[x]}</div>
+            }
+          })
+        }
+      </>
+    );
+  };
 
   return (
     <div>
@@ -43,21 +61,23 @@ const CadastroUsuario = (props) => {
 
       <Formik
         initialValues={{
-          nome: '',
-          sobrenome: '',
+          // nome: '',
+          // sobrenome: '',
+          razao_social: '',
+          username: '',
           email: '',
           cpf: '',
           password: '',
-          passwordRepeat: '',
+          // passwordRepeat: '',
         }}
         onSubmit={async values => {
           setLoading(true);
           try {
             const user = {
-              username: values.nome,
+              username: values.username,
               email: values.email,
               password: values.password,
-              razao_social: `${values.nome}/${values.email}`
+              razao_social: values.razao_social,
             };
             const newUser = await create(user);
             if (newUser.errors.length !== 0) throw Error('Some errors ocurred');
@@ -75,11 +95,14 @@ const CadastroUsuario = (props) => {
 
         }}
         validationSchema={Yup.object().shape({
+          username: Yup.string().required('O campo username é obrigatório'),
+          password: Yup.string().min(8, 'A senha deve ter um mínimo de 8 caracteres').required('O campo senha é obrigatório'),
           email: Yup.string()
             .email()
             .required("O campo de email é obrigatório"),
           cpf: Yup.string()
             .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'CPF inválido').required("O campo de cpf é obrigatório"),
+          razao_social: Yup.string().required('O campo razão social é obrigatório'),
         })}
       >
         {props => {
@@ -101,38 +124,22 @@ const CadastroUsuario = (props) => {
                 <div className="col-md-12 col-xl-12 col-sm-12" >
 
                   <div className="form-row">
-                    <div className="form-group col-md-4 col-xl-6 col-sm-12">
-                      <label for="nome" id="contato"><strong>Nome:</strong></label>
-                      <input
-                        id="nome"
-                        className="form-control"
-                        placeholder="Nome"
-                        type="text"
-                        value={values.nome}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      >
-                      </input>
-                    </div>
-
                     <div className="form-group col-md-4 col-xl-6 col-sm-12" >
-                      <label for="inputPassword4" id="contato"><strong>Sobrenome:</strong></label>
+                      <label htmlFor="username" ><strong>Username:</strong></label>
                       <input
-                        id="sobrenome"
+                        id="username"
                         className="form-control"
-                        placeholder="Sobrenome"
+                        placeholder="Username"
                         type="text"
-                        value={values.sobrenome}
+                        value={values.username}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
                       </input>
                     </div>
-                  </div>
 
-                  <div className="form-row">
                     <div className="form-group col-md-4 col-xl-6 col-sm-12">
-                      <label for="email" id="contato" ><strong>Email:</strong></label>
+                      <label htmlFor="email" id="contato" ><strong>Email:</strong></label>
                       <input
                         id="email"
                         className="form-control"
@@ -144,8 +151,12 @@ const CadastroUsuario = (props) => {
                       >
                       </input>
                     </div>
+
+                  </div>
+
+                  <div className="form-row">
                     <div className="form-group col-md-2 col-xl-6 col-sm-12">
-                      <label for="cpf" id="contato"><strong>CPF</strong></label>
+                      <label htmlFor="cpf" id="contato"><strong>CPF</strong></label>
                       <InputMask
                         id="cpf"
                         className="form-control"
@@ -158,11 +169,9 @@ const CadastroUsuario = (props) => {
                       >
                       </InputMask>
                     </div>
-                  </div>
 
-                  <div className="form-row">
                     <div className="form-group col-md-4 col-xl-6 col-sm-12">
-                      <label for="password" ><strong>Senha:</strong></label>
+                      <label htmlFor="password" ><strong>Senha:</strong></label>
                       <input
                         id="password"
                         className="form-control"
@@ -174,31 +183,31 @@ const CadastroUsuario = (props) => {
                       >
                       </input>
                     </div>
-                    {/* <div className="form-group col-md-4 col-xl-6 col-sm-12">
-                      <label for="passwordRepeat"><strong>Confirmar Senha:</strong></label>
+
+                  </div>
+
+                  <div className="form-row">
+
+                    <div className="form-group col-md-4 col-xl-6 col-sm-12">
+                      <label htmlFor="razao_social" ><strong>Razão Social:</strong></label>
                       <input
-                        id="passwordRepeat"
+                        id="razao_social"
                         className="form-control"
-                        placeholder="Repete Senha"
-                        type="password"
-                        value={values.passwordRepeat}
+                        placeholder="Razão social"
+                        type="text"
+                        value={values.razao_social}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
                       </input>
-                    </div> */}
+                    </div>
+
                   </div>
 
                   {
-                    errors.email && touched.email && (
-                      <div className="input-feedback">{errors.email}</div>
-                    )
+                    touchedAndWrong(errors, touched)
                   }
-                  {
-                    errors.cpf && touched.cpf && (
-                      <div className="input-feedback">{errors.cpf}</div>
-                    )
-                  }
+
 
                   <div className="col-md-12 col-xl-12 col-sm-12">
                     <center>

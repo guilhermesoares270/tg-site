@@ -7,8 +7,6 @@ export const login = async (email, password) => {
     email,
     password,
   }, AxiosConfig);
-  // if (response.status === 200 && typeof response.data != null) return true;
-  // return false;
   return response.data;
 };
 
@@ -24,16 +22,19 @@ export const persistCNPJ = async cnpj => {
   localStorage.setItem('cnpj', cnpj);
 };
 
+export const persistToken = async token => {
+  localStorage.setItem('token', token);
+};
+
 export const performLogin = async (email, pass) => {
   try {
-    // const isLogged = await login(email, pass);
     const loginData = await login(email, pass);
     const isLogged = Object.keys(loginData).length !== 0;
 
     console.log(`isLogged: ${isLogged}`);
     await persistLogin(isLogged);
     await persistCNPJ(loginData.enterprise_cnpj);
-    // return isLogged;
+    await persistToken(loginData.token);
     return loginData;
   } catch (error) {
     console.log(`perform login: ${error}`);

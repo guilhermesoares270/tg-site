@@ -10,11 +10,13 @@ import {
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { ROUTES_PREFIX } from '../../shared/global';
+import ReactLoading from 'react-loading';
 
 export const CadastroEmpresa = (props) => {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // const handleClose = () => setShow(false);
   const handleClose = () => setRedirect(true);
@@ -44,6 +46,7 @@ export const CadastroEmpresa = (props) => {
         enableReinitialize={true}
         initialValues={{ ...props.initValues }}
         onSubmit={async values => {
+          setLoading(true);
           try {
             const send = Object.assign({}, values, { razao_social: values.razaoSocial, cep: values.cep.toString() });
             delete send.passwordRepeat;
@@ -54,10 +57,12 @@ export const CadastroEmpresa = (props) => {
             const res = await create(send);
 
             setSuccess(true);
+            setLoading(false);
             handleShow();
           } catch (error) {
             console.log(`error: ${error.message}`);
             setSuccess(false);
+            setLoading(false);
             handleShow();
           }
         }}
@@ -88,8 +93,8 @@ export const CadastroEmpresa = (props) => {
               <div className="form-row" style={{
                 justifyContent: 'center'
               }}>
-                <div className="form-group col-md-4">
-                  <label for="razaoSocial" ><strong>Razão Social:</strong></label>
+                <div className="form-group col-md-6">
+                  <label htmlFor="razaoSocial" ><strong>Razão Social:</strong></label>
                   <input
                     id="razaoSocial"
                     className="form-control"
@@ -100,8 +105,8 @@ export const CadastroEmpresa = (props) => {
                     onBlur={handleBlur}
                   ></input>
                 </div>
-                <div className="form-group col-md-4" >
-                  <label for="cnpj" ><strong>CNPJ:</strong></label>
+                <div className="form-group col-md-6" >
+                  <label htmlFor="cnpj" ><strong>CNPJ:</strong></label>
                   <input
                     id="cnpj"
                     className="form-control"
@@ -118,7 +123,7 @@ export const CadastroEmpresa = (props) => {
                 justifyContent: 'center'
               }}>
                 <div className="form-group col-md-4">
-                  <label for="email"  ><strong>Email:</strong></label>
+                  <label htmlFor="email"  ><strong>Email:</strong></label>
                   <input
                     id="email"
                     className="form-control"
@@ -129,8 +134,8 @@ export const CadastroEmpresa = (props) => {
                     onBlur={handleBlur}
                   ></input>
                 </div>
-                <div className="form-group col-md-2">
-                  <label for="password" ><strong>Senha:</strong></label>
+                <div className="form-group col-md-4">
+                  <label htmlFor="password" ><strong>Senha:</strong></label>
                   <input
                     id="password"
                     className="form-control"
@@ -141,8 +146,8 @@ export const CadastroEmpresa = (props) => {
                     onBlur={handleBlur}
                   ></input>
                 </div>
-                <div className="form-group col-md-2">
-                  <label for="passwordRepeat" ><strong>Confirmar Senha:</strong></label>
+                {/* <div className="form-group col-md-2">
+                  <label htmlFor="passwordRepeat" ><strong>Confirmar Senha:</strong></label>
                   <input
                     id="passwordRepeat"
                     className="form-control"
@@ -152,10 +157,10 @@ export const CadastroEmpresa = (props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   ></input>
-                </div>
+                </div> */}
 
-                <div className="form-group col-md-6">
-                  <label for="cep" ><strong>Cep:</strong></label>
+                <div className="form-group col-md-4">
+                  <label htmlFor="cep" ><strong>Cep:</strong></label>
                   <input
                     id="cep"
                     className="form-control"
@@ -190,12 +195,16 @@ export const CadastroEmpresa = (props) => {
                   >
                     Reset
                 </button>
-                  <button
-                    type="submit"
-                    className="btn btn-light btn-confirma"
-                    disabled={isSubmitting}
-                  >CONFIRMAR
-                    </button>
+                  {
+                    loading ? <center><ReactLoading type="spin" color="#212121" height={50} width={50} /></center> :
+                      <button
+                        type="submit"
+                        className="btn btn-light btn-confirma"
+                        disabled={isSubmitting}
+                      >CONFIRMAR
+                  </button>
+                  }
+
                 </center>
               </div>
 
@@ -213,7 +222,8 @@ export const CadastroEmpresa = (props) => {
         console.log(`redirect: ${redirect}`)
       }
       {
-        redirect ? <Redirect to={`${ROUTES_PREFIX()}/listarArquivos`} /> : form()
+        // redirect ? <Redirect to={`${ROUTES_PREFIX()}/listarArquivos`} /> : form()
+        redirect ? <Redirect to='/' /> : form()
       }
     </>
   );

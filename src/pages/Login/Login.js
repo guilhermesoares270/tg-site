@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../../logo.svg';
+// eslint-disable-next-line no-unused-vars
 import tg from '../../assets/images/css/tg.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { performLogin } from '../../services/sessions';
 import ReactLoading from 'react-loading';
+import { Redirect, withRouter, useHistory } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
   const dispatch = useDispatch();
   const log = useSelector(x => x.isLoggedState.isLogged);
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +48,7 @@ const Login = () => {
                                 </span>
                             </label>
                         </div> */}
-            <a href="#" className="forgot-password">
+            <a href="#" className="forgot-password" onClick={() => history.push('/compararArquivo')}>
               Esqueci minha senha.
                         </a>
             <p></p>
@@ -72,6 +75,7 @@ const Login = () => {
                       email: email.current.value,
                       password: password.current.value
                     });
+                    props.history.push('/listarArquivos');
                   } catch (error) {
                     console.log(`Login error`);
                     setLoading(false);
@@ -86,4 +90,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+// export default Login;
+export default withRouter(Login);
