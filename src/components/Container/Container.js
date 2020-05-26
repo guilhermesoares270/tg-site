@@ -7,28 +7,41 @@ import ListarEmpresa from '../../pages/Empresas';
 import ListFiles from '../../pages/ListFiles';
 import UploadArquivos from '../../pages/UploadArquivos';
 import ValidateFile from '../../pages/ValidateFile';
+import NotFound from '../../components/NotFound';
 import { withRouter, Redirect } from 'react-router-dom';
 import {
   Switch,
   Route,
 } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const logged = localStorage.getItem('isLogged') == 'true';
-  console.log(`log: ${logged} - ${typeof logged}`);
   return logged ? <Route {...rest} render={props => (<Component {...props} />)} /> :
     <Redirect to={{ pathname: '/' }} />;
 }
 
+const forbiddenNavRoutes = [
+  '',
+  '/',
+  '/cadastroUsuario',
+  '/cadastroEmpresa'
+];
+
 export const Container = () => {
+  let location = useLocation();
+  console.log(`path: ${location.pathname}`);
+
   return (
     <>
       <div className="container-fluid">
         <div className="row">
-          <Navbar />
+          {
+            !forbiddenNavRoutes.includes(location.pathname) && <Navbar />
+          }
           <div className="container justify-content-center" >
             <div style={{
-              height: '50px'
+              height: '70px'
             }} ></div>
             <Switch>
               <Route exact path='/'>
@@ -52,6 +65,8 @@ export const Container = () => {
               <PrivateRoute exact path='/compararArquivo' >
                 <ValidateFile />
               </PrivateRoute>
+
+              <Route path="*" render={() => <NotFound />} />
             </Switch>
           </div>
         </div>

@@ -52,15 +52,7 @@ const ListFiles = (props) => {
             {
               props => {
                 const {
-                  values,
-                  touched,
-                  errors,
-                  dirty,
-                  isSubmitting,
-                  handleChange,
-                  handleBlur,
                   handleSubmit,
-                  handleReset
                 } = props;
                 return (
                   <>
@@ -70,9 +62,11 @@ const ListFiles = (props) => {
 
                       <Table striped bordered hover responsive="md" size="sm">
                         <thead>
-                          <th scope="col"><strong>CPF</strong></th>
-                          <th scope="col"><strong>Email</strong></th>
-                          <th scope="col"><strong>Ações</strong></th>
+                          <tr>
+                            <th scope="col"><strong>CPF</strong></th>
+                            <th scope="col"><strong>Email</strong></th>
+                            <th scope="col"><strong>Ações</strong></th>
+                          </tr>
                         </thead>
                         <tbody>
                           {fileList.data.map(x => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import crypto from 'crypto';
 import { storeContract } from '../../services/documents/index';
 import ReactLoading from 'react-loading';
+import jwtDdecode from 'jwt-decode';
 
 export const UploadArquivos = () => {
   const [file, setFile] = useState(null);
@@ -14,12 +15,14 @@ export const UploadArquivos = () => {
         console.log(`fileName: ${file.name}`);
         var md5sum = crypto.createHash('md5');
         md5sum.update(await file.text());
-        // console.log(md5sum.digest('hex'));
         const hash = md5sum.digest('hex');
+
+        // const token = localStorage.getItem('token');
+        // const decodedJwt = jwtDdecode(token);
 
         const dataToSend = {
           signature: hash,
-          identity: hash,
+          cpf: 'mock-cpf'
         };
 
         console.log(`hash: ${JSON.stringify(dataToSend)}`);

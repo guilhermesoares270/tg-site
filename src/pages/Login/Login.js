@@ -39,15 +39,6 @@ const Login = (props) => {
             <input ref={email} type="email" id="login" name="login" className="form-control" placeholder="Email "></input>
             <p></p>
             <input ref={password} type="password" name="password" id="inputPassword" className="form-control" placeholder="Senha"></input>
-            {/* <div id="remember" className="checkbox">
-                            <label>
-                                <input type="checkbox" value="LembrarSenha" />
-                                <span style={{
-                                    fontSize: '14px'
-                                }}>Lembrar Senha
-                                </span>
-                            </label>
-                        </div> */}
             <a href="#" className="forgot-password" onClick={() => history.push('/compararArquivo')}>
               Esqueci minha senha.
                         </a>
@@ -63,6 +54,7 @@ const Login = (props) => {
                   console.log(`performing login`);
                   try {
                     const isLogged = await performLogin(email.current.value, password.current.value);
+                    console.log(`performLogin: ${JSON.stringify(isLogged)}`);
                     dispatch({
                       type: 'SETENTERPRISE',
                       email: 'enterpriseData.email',
@@ -75,7 +67,7 @@ const Login = (props) => {
                       email: email.current.value,
                       password: password.current.value
                     });
-                    props.history.push('/listarArquivos');
+                    props.history.push('/subirArquivo');
                   } catch (error) {
                     console.log(`Login error`);
                     setLoading(false);
