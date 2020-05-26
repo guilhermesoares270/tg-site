@@ -9,6 +9,17 @@ export const UploadArquivos = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  const handleFileRequest = async () => {
+    setLoading(true);
+    const success = await processFile();
+    setError(success);
+    setLoading(false);
+  };
+
   const processFile = async () => {
     try {
       if (file != null) {
@@ -37,62 +48,76 @@ export const UploadArquivos = () => {
     }
   };
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const res = processFile();
+  //   setLoading(false);
+  // }, [loading]);
+
   useEffect(() => {
-    setLoading(true);
-    processFile();
-    setLoading(false);
-  }, []);
+
+  }, [loading, error]);
 
   return (
     <>
       {
-        loading && !error && <center><ReactLoading type="spin" color="#212121" height={50} width={50} /></center>
+        console.log(`loading: ${loading}`)
       }
       {
         error && <h1>Error</h1>
       }
-      {
+      {/* {
         !loading && !error &&
-        <div className="container-fluid">
-          <center><h4> Enviar de Arquivo </h4></center>
-          <br />
-          <div className="row">
-            <div className="col-md-12 col-sm-12 col-xl-4">
-            </div>
+        
+      } */}
+      <div className="container-fluid">
+        <center><h4> Enviar de Arquivo </h4></center>
+        <br />
+        <div className="row">
+          <div className="col-md-12 col-sm-12 col-xl-4">
+          </div>
+        </div>
+
+        <div className="col-md-12 col-sm-12 col-xl-4"></div>
+
+        <form>
+          <div className="custom-file">
+            <input
+              type="file"
+              className="custom-file-input"
+              id="customFile"
+              onChange={(e) => setFile(e.currentTarget.files[0])}
+            ></input>
+            <label className="custom-file-label" htmlFor="customFile">Procurar</label>
           </div>
 
-          <div className="col-md-12 col-sm-12 col-xl-4"></div>
+          <br />
+          <br />
+          {
+            !loading &&
+            <>
+              <div className="col-md-12 col-sm-12 col-xl-12">
+                <center>
+                  <button
+                    type="button"
+                    className="outline btn btn-light btn-confirma"
+                    // onClick={() => processFile()}
+                    onClick={() => handleFileRequest()}
+                  >
+                    Enviar
+                    </button>
+                </center>
+              </div>
+            </>
+          }
 
-          <form>
-            <div className="custom-file">
-              <input
-                type="file"
-                className="custom-file-input"
-                id="customFile"
-                onChange={(e) => setFile(e.currentTarget.files[0])}
-              ></input>
-              <label className="custom-file-label" htmlFor="customFile">Procurar</label>
-            </div>
+          {
+            loading && !error && <center><ReactLoading type="spin" color="#212121" height={50} width={50} /></center>
+          }
 
-            <br />
-            <br />
+        </form>
 
-            <div className="col-md-12 col-sm-12 col-xl-12">
-              <center>
-                <button
-                  type="button"
-                  className="outline btn btn-light btn-confirma"
-                  onClick={() => processFile()}
-                >
-                  Enviar
-              </button>
-              </center>
-            </div>
-
-          </form>
-
-        </div>
-      }
+      </div>
     </>
   );
 };

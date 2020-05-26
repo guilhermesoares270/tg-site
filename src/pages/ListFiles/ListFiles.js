@@ -3,6 +3,7 @@ import { index, currentEnterpriseContract } from '../../services/documents';
 import ReactLoading from 'react-loading';
 import { Formik } from 'formik';
 import { Table } from 'react-bootstrap';
+import ServerError from '../../components/ServerError';
 
 const ListFiles = (props) => {
   const [fileList, setFileList] = useState([]);
@@ -31,10 +32,16 @@ const ListFiles = (props) => {
   return (
     <>
       {
-        error && <h1>Error</h1>
+        error && <ServerError errorCode={500} />
       }
-      {/* {console.log(`popopo: ${JSON.stringify(fileList)}`)} */}
-      {loading && !error && <ReactLoading type="spin" color="#212121" height={50} width={50} />}
+      {
+        loading && !error &&
+        <>
+          <center>
+            <ReactLoading type="spin" color="#212121" height={50} width={50} />
+          </center>
+        </>
+      }
       {
         !loading && !error &&
         <>

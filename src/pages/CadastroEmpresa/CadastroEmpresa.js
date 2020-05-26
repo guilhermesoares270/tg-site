@@ -9,7 +9,6 @@ import {
 } from 'react-bootstrap';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { ROUTES_PREFIX } from '../../shared/global';
 import ReactLoading from 'react-loading';
 
 export const CadastroEmpresa = (props) => {
@@ -18,12 +17,8 @@ export const CadastroEmpresa = (props) => {
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // const handleClose = () => setShow(false);
   const handleClose = () => setRedirect(true);
-  const handleShow = () => {
-    console.log(`success: ${success}`);
-    setShow(true);
-  };
+  const handleShow = () => setShow(true);
 
   const modalBody = 'Não foi possível criar a empresa';
   const modalSuccess = 'Empresa criada com sucesso';
