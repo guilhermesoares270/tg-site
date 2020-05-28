@@ -21,7 +21,24 @@ export const CadastroEmpresa = (props) => {
   const handleShow = () => setShow(true);
 
   const modalBody = 'Não foi possível criar a empresa';
-  const modalSuccess = 'Empresa criada com sucesso';
+  const modalSuccess = 'Empresa criada com sucesso. Você será redirecinado para a tela de login';
+
+  const touchedAndWrong = (errors, touched) => {
+    const errorsKeys = Object.keys(errors);
+    const touchedKeys = Object.keys(touched);
+
+    return (
+      <>
+        {
+          errorsKeys.map(x => {
+            if (touchedKeys.includes(x)) {
+              return <div className="input-feedback">{errors[x]}</div>
+            }
+          })
+        }
+      </>
+    );
+  };
 
   const form = () => {
     return (<>
@@ -65,9 +82,13 @@ export const CadastroEmpresa = (props) => {
           email: Yup.string()
             .email()
             .required("Required"),
-          // cnpj: Yup.string().matches(
-          //   /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/gm,
-          //   'CNPJ format is invalid')
+          cnpj: Yup.string().matches(
+            /^[0-9]{14}/gm,
+            'CNPJ format is invalid').required('O campo cnpj é obrigatório'),
+          cep: Yup.number('O campo deve ser numérico')
+            .positive('Números negativos não são aceitos')
+            .min(8, 'Cep deve conter ao menos 8 caracteres')
+            .required('O campo cep é obrigatório')
         })}
       >
         {props => {
@@ -141,19 +162,6 @@ export const CadastroEmpresa = (props) => {
                     onBlur={handleBlur}
                   ></input>
                 </div>
-                {/* <div className="form-group col-md-2">
-                  <label htmlFor="passwordRepeat" ><strong>Confirmar Senha:</strong></label>
-                  <input
-                    id="passwordRepeat"
-                    className="form-control"
-                    placeholder="Password"
-                    type="password"
-                    value={values.passwordRepeat}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  ></input>
-                </div> */}
-
                 <div className="form-group col-md-4">
                   <label htmlFor="cep" ><strong>Cep:</strong></label>
                   <input
@@ -170,14 +178,7 @@ export const CadastroEmpresa = (props) => {
               </div>
 
               {
-                errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
-                )
-              }
-              {
-                errors.cnpj && touched.cnpj && (
-                  <div className="input-feedback">{errors.cnpj}</div>
-                )
+                touchedAndWrong(errors, touched)
               }
 
               <div className="col-md-12 col-xl-12 col-sm-12">
@@ -217,7 +218,6 @@ export const CadastroEmpresa = (props) => {
         console.log(`redirect: ${redirect}`)
       }
       {
-        // redirect ? <Redirect to={`${ROUTES_PREFIX()}/listarArquivos`} /> : form()
         redirect ? <Redirect to='/' /> : form()
       }
     </>

@@ -6,7 +6,7 @@ import CadastroUsuario from '../../pages/CadastroUsuario';
 import ListarEmpresa from '../../pages/Empresas';
 import ListFiles from '../../pages/ListFiles';
 import UploadArquivos from '../../pages/UploadArquivos';
-import ValidateFile from '../../pages/ValidateFile';
+import ValidarArquivo from '../../pages/ValidarArquivo';
 import NotFound from '../../components/NotFound';
 import { withRouter, Redirect } from 'react-router-dom';
 import {
@@ -14,6 +14,7 @@ import {
   Route,
 } from "react-router-dom";
 import { useLocation } from 'react-router-dom'
+import ValidateFile from '../../pages/ValidarArquivo';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const logged = localStorage.getItem('isLogged') == 'true';
@@ -30,7 +31,6 @@ const forbiddenNavRoutes = [
 
 export const Container = () => {
   let location = useLocation();
-  console.log(`path: ${location.pathname}`);
 
   return (
     <>
@@ -53,7 +53,7 @@ export const Container = () => {
               <Route exact path='/cadastroEmpresa' >
                 <CadastroEmpresa />
               </Route>
-              <PrivateRoute exact path='/listarEmpresa'>
+              <PrivateRoute exact path='/listarEmpresa' >
                 <ListarEmpresa />
               </PrivateRoute>
               <PrivateRoute exact path='/listarArquivos' >
@@ -62,7 +62,7 @@ export const Container = () => {
               <PrivateRoute exact path='/subirArquivo' >
                 <UploadArquivos />
               </PrivateRoute>
-              <PrivateRoute exact path='/compararArquivo' >
+              <PrivateRoute exact path='/validarArquivo' >
                 <ValidateFile />
               </PrivateRoute>
 

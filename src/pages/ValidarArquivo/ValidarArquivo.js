@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import crypto from 'crypto';
-import { storeContract } from '../../services/documents/index';
+import { getDocument } from '../../services/documents/index';
 import ReactLoading from 'react-loading';
+import MyModal from '../../components/MyModal';
 
 export const UploadArquivos = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const fileHash = async (fileText) => {
+    var md5sum = crypto.createHash('md5');
+    md5sum.update(fileText);
+    return md5sum.digest('hex');
+  };
+
   const processFile = async () => {
     try {
       if (file != null) {
-        console.log(`fileName: ${file.name}`);
-        var md5sum = crypto.createHash('md5');
-        md5sum.update(await file.text());
-        // console.log(md5sum.digest('hex'));
-        const hash = md5sum.digest('hex');
+        const hash = fileHash(await file.text());
 
         const dataToSend = {
           signature: hash,
-          identity: hash,
         };
 
         console.log(`hash: ${JSON.stringify(dataToSend)}`);
 
-        await storeContract(dataToSend);
+        const doc = await getDocument();
+        const userCpf = doc.cpf;
 
         return true;
       }
@@ -52,7 +55,12 @@ export const UploadArquivos = () => {
       {
         !loading && !error &&
         <div className="container-fluid">
-          <center><h4> Enviar de Arquivo </h4></center>
+          <center>
+            <h4>Validar Arquivo</h4>
+          </center>
+          <center>
+            <h6>Escolha um arquivo para verificar se o mesmo já foi enviado para o blockchain.</h6>
+          </center>
           <br />
           <div className="row">
             <div className="col-md-12 col-sm-12 col-xl-4">

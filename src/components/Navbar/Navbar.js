@@ -19,7 +19,7 @@ const CustomNavbar = () => {
           <Nav className="mr-auto">
             <NavDropdown title='Usuarios'>
               <Link className="nav-link" to='/cadastroUsuario' >Novo Usuário</Link>
-              <Link className="nav-link" to='/validateFile' >Validar Arquivo</Link>
+              <Link className="nav-link" to='/validarArquivo' >Validar Arquivo</Link>
             </NavDropdown>
 
             <NavDropdown title='Empresas'>

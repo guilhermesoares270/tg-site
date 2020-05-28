@@ -39,9 +39,29 @@ const Login = (props) => {
             <input ref={email} type="email" id="login" name="login" className="form-control" placeholder="Email "></input>
             <p></p>
             <input ref={password} type="password" name="password" id="inputPassword" className="form-control" placeholder="Senha"></input>
-            <a href="#" className="forgot-password" onClick={() => history.push('/compararArquivo')}>
+            {/* <a href="#" className="forgot-password" onClick={() => history.push('/compararArquivo')}>
               Esqueci minha senha.
-                        </a>
+            </a> */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-around'
+              }}
+            >
+              <a
+                href="cadastroUsuario"
+                className="forgot-password"
+              >
+                Cadastar Usuário
+              </a>
+              <a
+                href="cadastroEmpresa"
+                className="forgot-password"
+              >
+                Cadastar Empresa
+              </a>
+            </div>
+
             <p></p>
             {loading ? <center><ReactLoading type="spin" color="#212121" height={50} width={50} /></center> : <></>}
             {!loading ?

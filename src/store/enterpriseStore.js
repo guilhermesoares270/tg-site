@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 export const enterpriseStore = (state = {
   email: '',
   razaoSocial: '',

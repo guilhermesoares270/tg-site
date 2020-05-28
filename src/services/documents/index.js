@@ -14,8 +14,12 @@ export const storeContract = async (sigAndIden) => {
   return (await axios.post('/ganache', sigAndIden, AxiosConfig)).data;
 };
 
+export const getDocument = async (fileHashObj) =>
+  (await axios.post('/ganache/getDoc', fileHashObj, AxiosConfig)).data;
+
 export default {
   index,
   currentEnterpriseContract,
   storeContract,
+  getDocument,
 };

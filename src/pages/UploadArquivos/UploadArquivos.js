@@ -3,11 +3,18 @@ import crypto from 'crypto';
 import { storeContract } from '../../services/documents/index';
 import ReactLoading from 'react-loading';
 import jwtDdecode from 'jwt-decode';
+import MyModal from '../../components/MyModal';
 
 export const UploadArquivos = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [show, setShow] = useState(false);
+  // const [modalMessage, setModalMessage] = useState('Falha ao enviar o arquivo');
+  const successMessage = 'Sucesso ao enviar o arquivo';
+  const failureMessage = 'Falha ao enviar o arquivo';
+  let currentMessage = failureMessage;
+  const modalTitle = 'Upload de arquivo';
 
   const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -16,8 +23,15 @@ export const UploadArquivos = () => {
   const handleFileRequest = async () => {
     setLoading(true);
     const success = await processFile();
-    setError(success);
+
+    // await sleep(3000);
+    // const success = true;
+
+    setError(!success);
     setLoading(false);
+    if (success) currentMessage = successMessage;
+    else currentMessage = failureMessage;
+    setShow(true);
   };
 
   const processFile = async () => {
@@ -48,28 +62,28 @@ export const UploadArquivos = () => {
     }
   };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const res = processFile();
-  //   setLoading(false);
-  // }, [loading]);
-
   useEffect(() => {
 
   }, [loading, error]);
 
+  const showFalse = () => setShow(false);
+
   return (
     <>
       {
-        console.log(`loading: ${loading}`)
+        <MyModal
+          show={show}
+          handleClose={showFalse}
+          message={currentMessage}
+          title={modalTitle}
+        />
+      }
+      {
+        console.log(`loading: ${loading} - show: ${show}`)
       }
       {
         error && <h1>Error</h1>
       }
-      {/* {
-        !loading && !error &&
-        
-      } */}
       <div className="container-fluid">
         <center><h4> Enviar de Arquivo </h4></center>
         <br />
@@ -101,8 +115,11 @@ export const UploadArquivos = () => {
                   <button
                     type="button"
                     className="outline btn btn-light btn-confirma"
-                    // onClick={() => processFile()}
-                    onClick={() => handleFileRequest()}
+                    // onClick={() => handleFileRequest()}
+                    onClick={() => {
+                      // setShow(true);
+                      handleFileRequest();
+                    }}
                   >
                     Enviar
                     </button>
