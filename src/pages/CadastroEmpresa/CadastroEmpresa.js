@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import InputMask from 'react-input-mask';
 
 export const CadastroEmpresa = (props) => {
   const [show, setShow] = useState(false);
@@ -83,7 +84,7 @@ export const CadastroEmpresa = (props) => {
             .email()
             .required("Required"),
           cnpj: Yup.string().matches(
-            /^[0-9]{14}/gm,
+            /[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}/gm,
             'CNPJ format is invalid').required('O campo cnpj é obrigatório'),
           cep: Yup.number('O campo deve ser numérico')
             .positive('Números negativos não são aceitos')
@@ -123,15 +124,17 @@ export const CadastroEmpresa = (props) => {
                 </div>
                 <div className="form-group col-md-6" >
                   <label htmlFor="cnpj" ><strong>CNPJ:</strong></label>
-                  <input
+                  <InputMask
                     id="cnpj"
                     className="form-control"
                     placeholder="CNPJ"
                     type="text"
+                    mask="99.999.999/9999-99"
                     value={values.cnpj}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                  ></input>
+                  >
+                  </InputMask>
                 </div>
               </div>
 

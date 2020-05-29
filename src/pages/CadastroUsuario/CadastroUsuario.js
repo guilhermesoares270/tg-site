@@ -13,6 +13,7 @@ const CadastroUsuario = (props) => {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleClose = () => {
     if (success)
@@ -51,7 +52,13 @@ const CadastroUsuario = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>Criação de usuário</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{success ? modalSuccess : modalBody}</Modal.Body>
+        <Modal.Body>
+          {success ? modalSuccess : `${modalBody}`}
+          <br />
+          {
+            errors.map(x => <p>{x}</p>)
+          }
+        </Modal.Body>
         <Modal.Footer>
           <Button className="btn btn-light btn-confirma" variant="secondary" onClick={handleClose}>
             Fechar
@@ -80,7 +87,12 @@ const CadastroUsuario = (props) => {
               razao_social: values.razao_social,
             };
             const newUser = await create(user);
-            if (newUser.errors.length !== 0) throw Error('Some errors ocurred');
+            if (newUser.errors.length !== 0) {
+              console.log(`PoPo: ${JSON.stringify(newUser.errors)}`);
+              setErrors(newUser.errors);
+              console.log(`PoPo: ${JSON.stringify(errors)}`);
+              throw Error('Some errors ocurred');
+            }
 
             setSuccess(true);
             handleShow();

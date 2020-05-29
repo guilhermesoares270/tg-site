@@ -6,15 +6,14 @@ import CadastroUsuario from '../../pages/CadastroUsuario';
 import ListarEmpresa from '../../pages/Empresas';
 import ListFiles from '../../pages/ListFiles';
 import UploadArquivos from '../../pages/UploadArquivos';
-import ValidarArquivo from '../../pages/ValidarArquivo';
 import NotFound from '../../components/NotFound';
+import ValidateFile from '../../pages/ValidarArquivo';
 import { withRouter, Redirect } from 'react-router-dom';
 import {
   Switch,
   Route,
 } from "react-router-dom";
 import { useLocation } from 'react-router-dom'
-import ValidateFile from '../../pages/ValidarArquivo';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const logged = localStorage.getItem('isLogged') == 'true';
@@ -25,8 +24,8 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 const forbiddenNavRoutes = [
   '',
   '/',
-  '/cadastroUsuario',
-  '/cadastroEmpresa'
+  // '/cadastroUsuario',
+  // '/cadastroEmpresa'
 ];
 
 export const Container = () => {
